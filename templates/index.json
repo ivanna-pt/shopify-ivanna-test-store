@@ -36,7 +36,7 @@
             "image": "shopify://shop_images/hero-slide2-1280.webp",
             "image_overlay_opacity": 20,
             "heading": "<strong>More than just shoes — it’s a part of your story.</strong>",
-            "heading_size": "h0",
+            "heading_size": "h1",
             "subheading": "Original sneakers from Nike and other top brands that make every step feel special.",
             "button_label": "Shop the Collection",
             "link": "shopify://collections/automated-collection",
@@ -54,7 +54,7 @@
             "image": "shopify://shop_images/hero-slide3-1280.webp",
             "image_overlay_opacity": 20,
             "heading": "<strong>More than just shoes — it’s a part of your story.</strong>",
-            "heading_size": "h0",
+            "heading_size": "h1",
             "subheading": "Original sneakers from Nike and other top brands that make every step feel special.",
             "button_label": "Shop the Collection",
             "link": "shopify://collections/automated-collection",
