@@ -15,7 +15,8 @@
         "slide_UXyC3U": {
           "type": "slide",
           "settings": {
-            "image_overlay_opacity": 0,
+            "image": "shopify://shop_images/hero-slide1-1280.webp",
+            "image_overlay_opacity": 20,
             "heading": "<strong>More than just shoes — it’s a part of your story.</strong>",
             "heading_size": "h0",
             "subheading": "Original sneakers from Nike and other top brands that make every step feel special.",
