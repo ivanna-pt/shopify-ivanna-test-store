@@ -32,7 +32,7 @@
   aria-label="{{ section.settings.accessibility_info | escape }}"
 >
   {%- if section.settings.auto_rotate and section.blocks.size > 1 -%}
-    <div class="slideshow__controls slideshow__controls--top slider-buttons{% if section.settings.show_text_below %} slideshow__controls--border-radius-mobile{% endif %}">
+    <div class="slideshow__controls {% if section.settings.slider_visual == 'custom'%}slideshow__controls--custom {% else %}slideshow__controls--top{% endif %}  slider-buttons{% if section.settings.show_text_below %} slideshow__controls--border-radius-mobile{% endif %}">
       <button
         type="button"
         class="slider-button slider-button--prev"
@@ -60,8 +60,11 @@
               >
                 {%- if section.settings.slider_visual == 'numbers' -%}
                   {{ forloop.index -}}
-                {%- else -%}
+                {%- elsif section.settings.slider_visual == 'dots' -%}
                   <span class="dot"></span>
+                {%- elsif section.settings.slider_visual == 'custom' -%}
+                  <!-- For custom pagination, you can add your custom content here -->
+                  <span class="custom-bullet"></span>
                 {%- endif -%}
               </button>
             {%- endfor -%}
@@ -219,8 +222,11 @@
               >
                 {%- if section.settings.slider_visual == 'numbers' -%}
                   {{ forloop.index -}}
-                {%- else -%}
+                {%- elsif section.settings.slider_visual == 'dots' -%}
                   <span class="dot"></span>
+                {%- elsif section.settings.slider_visual == 'custom' -%}
+                  <!-- For custom pagination, you can add your custom content here -->
+                  <span class="custom-bullet"></span>
                 {%- endif -%}
               </button>
             {%- endfor -%}
@@ -325,7 +331,11 @@
         {
           "value": "numbers",
           "label": "t:sections.slideshow.settings.slider_visual.options__3.label"
-        }
+        },
+        {
+        "value": "custom",
+        "label": "Custom pagination"
+      }
       ],
       "default": "counter",
       "label": "t:sections.slideshow.settings.slider_visual.label"
