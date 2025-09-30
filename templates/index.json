@@ -87,6 +87,76 @@
         "accessibility_info": "Slideshow about our brand"
       }
     },
+    "featured_product_RpyPgj": {
+      "type": "featured-product",
+      "blocks": {
+        "text_pDQbCn": {
+          "type": "text",
+          "settings": {
+            "text": "{{ section.settings.product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title_KdJkVW": {
+          "type": "title",
+          "settings": {
+            "heading_size": "h1"
+          }
+        },
+        "price_iP4WRB": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker_DHzrVU": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "quantity_selector_dqdcmk": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons_XjfGyz": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        },
+        "share_iwcw8B": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
+          }
+        }
+      },
+      "block_order": [
+        "text_pDQbCn",
+        "title_KdJkVW",
+        "price_iP4WRB",
+        "variant_picker_DHzrVU",
+        "quantity_selector_dqdcmk",
+        "buy_buttons_XjfGyz",
+        "share_iwcw8B"
+      ],
+      "name": "t:sections.featured-product.presets.name",
+      "settings": {
+        "product": "the-complete-snowboard",
+        "color_scheme": "",
+        "secondary_background": false,
+        "media_size": "medium",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "hide_variants": false,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
@@ -118,6 +188,7 @@
   },
   "order": [
     "slideshow_eykfjd",
+    "featured_product_RpyPgj",
     "featured_collection"
   ]
 }
