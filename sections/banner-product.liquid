@@ -75,9 +75,10 @@
                   {% assign keys = "option1,option2,option3" | split: "," %}
                   {% assign option_index = forloop.index0 %} 
                   {% assign option_key = keys[option_index] %}
+                  {% assign option_name = option.name | downcase %}
   
-                  {% case option.name %}
-                    {%- when "Color" -%}
+                  {% case option_name %}
+                    {%- when "color", "colour" -%}
                       <p>
                         {{ 'products.product.banner-product.select_option' | t: option_name: option.name | default: option.name }}:
                       </p>
@@ -94,7 +95,7 @@
                             </button>
                         {%- endfor -%}
                       </div>
-                    {%- when "Size" -%}
+                    {%- when "size" -%}
                       <p>{{ 'products.product.banner-product.select_option' | t: option_name: option.name | default: option.name }}:</p>
                       <div class="option option--size">
                         {%- for value in option.values -%}
