@@ -8,7 +8,7 @@
   assign featured_image_alt = product.featured_image.alt | default: product.title
 
 -%}
-{% comment %} Check a product and use placeholder if product == null
+{% comment %} TO-DO:Check a product and use placeholder if product == null
     assign placeholder = true
 {% endcomment %}
 
@@ -24,9 +24,9 @@
     {%- endif -%}
      <span class="price {% unless available %}price--muted{% endunless %}" data-target="{{ target.id }}">{{ price |  money_with_currency }}</span>
      {%- if available == false -%}
-      <span class="badge badge--soldout">{{ "products.product.sold_out" | t }}</span>
+      <span class="badge badge--soldout">{{ 'products.product.sold_out' | t }}</span>
     {%- elsif compare_at_price > price -%}
-      <span class="badge badge--sale">{{ "products.product.on_sale" | t }}</span>
+      <span class="badge badge--sale">{{ 'products.product.on_sale' | t }}</span>
     {%- endif -%}
   </div>            
 {% endcapture %}
@@ -49,6 +49,7 @@
             {% endif %}
               
           </div>
+          {% comment %} TO-DO: Implement product gallery {% endcomment %}
           <div class="product-gallery" data-color="white"></div>
         </div>
         <div class="product-info">
@@ -78,7 +79,7 @@
                   {% assign option_name = option.name | downcase %}
   
                   {% case option_name %}
-                    {%- when "color", "colour" -%}
+                    {%- when 'color', 'colour' -%}
                       <p>
                         {{ 'products.product.banner-product.select_option' | t: option_name: option.name | default: option.name }}:
                       </p>
@@ -110,21 +111,17 @@
                         {%- endfor -%}
                       </div>
                   {% endcase %}
+
+                  {% if product.options_with_values < 3 %}
+                    {% comment %} There are less than 3 options available {% endcomment %}
+                  {% else %}
+                    {% comment %} There are 3 or more options available {% endcomment %}
+                  {% endif %}
                 {% endfor %}
               </div>
           {% endif %}
-            {% comment %} <div class="size-options">
-              <p>Select size:</p>
-              <div class="grid">
-                <button class="size-button" data-size="UK 5.5">UK 5.5</button>
-                <button class="size-button" data-size="UK 6(EU 39)">UK 6(EU 39)</button>
-                <button class="size-button" data-size="UK 6 (EU 40)">UK 6 (EU 40)</button>
-                <button class="size-button" data-size="UK 6.5">UK 6.5</button>
-                <button class="size-button" data-size="UK 7">UK 7</button>
-                <button class="size-button" data-size="UK 7.5">UK 7.5</button>
-              </div>
-            </div> {% endcomment %}
-          <button class="button button--full-width button--primary add-to-cart">Add to Cart</button>
+          {% comment %} TO-DO: Implement product form {% endcomment %}
+          <button class="button button--full-width button--primary add-to-cart">{{ 'products.product.add_to_cart' | t }}</button>
           {% if product.description != blank %}
              <p class="product-description text-secondary text-medium">{{ product.description }}</p>
            {% endif %}
