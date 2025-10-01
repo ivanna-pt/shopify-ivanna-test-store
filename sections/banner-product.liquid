@@ -54,25 +54,59 @@
             <div>
               <h2 class="product-title">{{ product.title }}</h2>
               {{ price }}
+              <div class="product__quantity">
+                {%- unless product.selected_or_first_available_variant.inventory_quantity == 0 or product.selected_or_first_available_variant.available == false -%}
+                  <span class="text-secondary text-medium">In stock:</span>
+                <span class="product--inventory_quantity">{{ product.selected_or_first_available_variant.inventory_quantity }}</span>
+                {%- else -%}
+                  <span class="text--alert text-medium">Out of stock</span>
+                {%- endunless -%}
+                
+              </div>
             </div>
             {% if product.variants.size > 1 %} 
-              {% if product.options contains "Color" %}             
-                <div class="color-options">
-              <p>Select color:</p>
-              {% for color in color_variants limit: 3 %}
-                {% assign repr_variant = product.variants | where: "option1", color | first %}
-                {% assign varian_image = repr_variant.image | default: product.featured_image %}
-                {% assign variant_quantity = repr_variant.inventory_quantity | default: repr_variant.available %}
-                
-                  <button class="color-button" data-variant-id="{{ repr_variant.id }}" data-color="{{ color | downcase }}" data-available="{{ variant_quantity }}">
-                  {% comment %} {{ varian_image | image_url: width: 32, height: 32 | image_tag: alt: variant.title }} {% endcomment %}
-                  {{ color }}
-                  </button>
+              <div class="product-variants">              
+                 {% for option in product.options_with_values %}
+                  {% assign keys = "option1,option2,option3" | split: "," %}
+                  {% assign option_index = forloop.index0 %} 
+                  {% assign option_key = keys[option_index] %}
+  
+                  {% case option.name %}
+                    {%- when "Color" -%}
+                      <p>Select {{option.name | downcase}}:</p>
+                      <div class=" option option--color">
+                        {%- for value in option.values limit: 3 -%}
+                          {% assign variant = product.variants | where: option_key, value | first %}
+                          {% assign variant_quantity = variant.inventory_quantity | default: variant.available %}                          
+                          <button class="color-button" data-variant-id="{{ variant.id }}" data-color="{{ value | downcase }}" data-available="{{ variant_quantity }}">
+                            {% if variant.image %}            
+                            {{ variant.image | image_url: width: 512, height: 512 | image_tag: width: 88, height: 88, alt: variant.image.alt }}
+                            {% else %}
+                              {{ 'image' | placeholder_svg_tag: 'placeholder-svg-class' }}
+                            {% endif %}                            
+                            </button>
+                        {%- endfor -%}
+                      </div>
+                    {%- when "Size" -%}
+                      <p>Select {{option.name | downcase}}:</p>
+                      <div class="option option--size">
+                        {%- for value in option.values -%}
+                          <button class="size-button">{{ value }}</button>
+                        {%- endfor -%}
+                      </div>
+                    
+                    {%- else -%}
+                      <p>Select {{option.name | downcase}}:</p>
+                      <div class="option option--generic">
+                        {%- for value in option.values -%}
+                          <button class="generic-button">{{ value }}</button>
+                        {%- endfor -%}
+                      </div>
+                  {% endcase %}
                 {% endfor %}
-                </div>
-              {% endif %}
+              </div>
             {% endif %}
-            <div class="size-options">
+            {% comment %} <div class="size-options">
               <p>Select size:</p>
               <div class="grid">
                 <button class="size-button" data-size="UK 5.5">UK 5.5</button>
@@ -82,7 +116,7 @@
                 <button class="size-button" data-size="UK 7">UK 7</button>
                 <button class="size-button" data-size="UK 7.5">UK 7.5</button>
               </div>
-            </div>
+            </div> {% endcomment %}
             <button class="button button--full-width button--primary add-to-cart">Add to Cart</button>
             {% if product.description != blank %}
               <p class="product-description text-secondary text-medium">{{ product.description }}</p>
