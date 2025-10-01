@@ -24,9 +24,9 @@
     {%- endif -%}
      <span class="price {% unless available %}price--muted{% endunless %}" data-target="{{ target.id }}">{{ price |  money_with_currency }}</span>
      {%- if available == false -%}
-      <span class="badge badge--soldout">Sold out</span>
+      <span class="badge badge--soldout">{{ "products.product.sold_out" | t }}</span>
     {%- elsif compare_at_price > price -%}
-      <span class="badge badge--sale">Sale</span>
+      <span class="badge badge--sale">{{ "products.product.on_sale" | t }}</span>
     {%- endif -%}
   </div>            
 {% endcapture %}
@@ -56,12 +56,16 @@
             {% if product.title != blank %}
             <h2 class="product-title">{{ product.title | escape}}</h2>
             {% endif %}
-            {{ price }}
+            {%  if price != blank %}
+              {{ price }}
+            {% endif %}
             <div class="product--inventory_quantity">
               {%- unless target.available == false -%}
-                <span class="text-secondary text-medium">In stock: {{ target.inventory_quantity }}</span>
+                <span class="text-secondary text-medium">
+                  {{ 'products.product.inventory_in_stock_show_count' | t: quantity: target.inventory_quantity }}
+                </span>                  
               {%- else -%}
-                <span class="text--alert text-medium">Out of stock</span>
+                <span class="text--alert text-medium">{{ 'products.product.inventory_in_stock' | t}}</span>
               {%- endunless -%}                
             </div>
           </div>
@@ -74,7 +78,9 @@
   
                   {% case option.name %}
                     {%- when "Color" -%}
-                      <p>Select {{option.name | downcase}}:</p>
+                      <p>
+                        {{ 'products.product.banner-product.select_option' | t: option_name: option.name | default: option.name }}:
+                      </p>
                       <div class=" option option--color">
                         {%- for value in option.values limit: 3 -%}
                           {% assign variant = product.variants | where: option_key, value | first %}
@@ -89,15 +95,14 @@
                         {%- endfor -%}
                       </div>
                     {%- when "Size" -%}
-                      <p>Select {{option.name | downcase}}:</p>
+                      <p>{{ 'products.product.banner-product.select_option' | t: option_name: option.name | default: option.name }}:</p>
                       <div class="option option--size">
                         {%- for value in option.values -%}
                           <button class="size-button">{{ value }}</button>
                         {%- endfor -%}
-                      </div>
-                    
+                      </div>                    
                     {%- else -%}
-                      <p>Select {{option.name | downcase}}:</p>
+                      <p>{{ 'products.product.banner-product.select_option' | t: option_name: option.name | default: option.name }}:</p>
                       <div class="option option--generic">
                         {%- for value in option.values -%}
                           <button class="generic-button">{{ value }}</button>
