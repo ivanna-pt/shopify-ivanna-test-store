@@ -1,5 +1,5 @@
 {%- liquid
-  assign product = section.settings.product
+  assign product = section.settings.product | default: product
   assign color_variants = product.variants | map: 'option1' | uniq
   assign target = product.selected_or_first_available_variant
   assign compare_at_price = target.compare_at_price
@@ -42,12 +42,15 @@
               </svg>
               <span class="badge-text">highly rated</span>
             </div>            
-            {% if product.featured_image %}
-              {{ product.featured_image | image_url: width: 536 | image_tag: alt: featured_image_alt }}
-            {% else %}
-              {{ 'image' | placeholder_svg_tag: 'placeholder-svg-class' }}
-            {% endif %}
-              
+            {%- comment -%} Display variant image if it exists, otherwise display product featured image, otherwise display placeholder image {%- endcomment -%}
+              {% assign variant_image = target.image %}
+              {% if variant_image %}
+                {{ variant_image | image_url: width: 536 | image_tag: alt: featured_image_alt }}
+             {% elsif product.featured_image %}
+                {{ product.featured_image | image_url: width: 536 | image_tag: alt: featured_image_alt }}
+             {% else %}
+               {{ 'image' | placeholder_svg_tag: 'placeholder-svg-class' }}
+              {% endif %}
           </div>
           {% comment %} TO-DO: Implement product gallery {% endcomment %}
           <div class="product-gallery" data-color="white"></div>
@@ -66,13 +69,13 @@
                   {{ 'products.product.inventory_in_stock_show_count' | t: quantity: target.inventory_quantity }}
                 </span>                  
               {%- else -%}
-                <span class="text--alert text-medium">{{ 'products.product.inventory_in_stock' | t}}</span>
+                <span class="text--alert text-medium">{{ 'products.product.inventory_out_of_stock' | t}}</span>
               {%- endunless -%}                
             </div>
           </div>
           {% if product.variants.size > 1 %} 
               <div class="product-variants">              
-                 {% for option in product.options_with_values %}                
+                {% for option in product.options_with_values %}                
                   {% assign option_name = option.name | downcase %}
   
                   {% case option_name %}
@@ -81,9 +84,8 @@
                         {{ 'products.product.banner-product.select_option' | t: option_name: option.name | default: option.name }}:
                       </p>
                       <div class=" option option--color">
-                        {%- for value in option.values limit: 3 -%}                          
-                          {% assign variant_quantity = value.variant.inventory_quantity | default: value.variant.available %}                          
-                          <button class="color-button" data-variant-id="{{ value.variant.id }}" data-value="{{ value | downcase }}" data-available="{{ variant_quantity }}">
+                        {%- for value in option.values limit: 3 -%}                       
+                          <button class="color-button" data-variant-id="{{ value.variant.id }}" data-product-handle="{{ product.handle }}" data-value="{{ value | downcase }}">
                             {% if value.variant.image %}            
                             {{ value.variant.image | image_url: width: 512, height: 512 | image_tag: width: 88, height: 88, alt: value.variant.image.alt }}
                             {% else %}
@@ -96,23 +98,17 @@
                       <p>{{ 'products.product.banner-product.select_option' | t: option_name: option.name | default: option.name }}:</p>
                       <div class="option option--size">
                         {%- for value in option.values -%}
-                          <button class="size-button" data-variant-id="{{ value.variant.id }}" data-value="{{ value | downcase }}" data-available="{{ variant_quantity }}">{{ value }}</button>
+                          <button class="size-button" data-variant-id="{{ value.variant.id }}" data-value="{{ value | downcase }}">{{ value }}</button>
                         {%- endfor -%}
                       </div>                    
                     {%- else -%}
                       <p>{{ 'products.product.banner-product.select_option' | t: option_name: option.name | default: option.name }}:</p>
                       <div class="option option--generic">
                         {%- for value in option.values -%}
-                          <button class="generic-button" data-variant-id="{{ value.variant.id }}" data-value="{{ value | downcase }}" data-available="{{ variant_quantity }}">{{ value }}</button>
+                          <button class="generic-button" data-variant-id="{{ value.variant.id }}" data-value="{{ value | downcase }}">{{ value }}</button>
                         {%- endfor -%}
                       </div>
                   {% endcase %}
-
-                  {% if product.options_with_values < 3 %}
-                    {% comment %} There are less than 3 options available {% endcomment %}
-                  {% else %}
-                    {% comment %} There are 3 or more options available {% endcomment %}
-                  {% endif %}
                 {% endfor %}
               </div>
           {% endif %}
