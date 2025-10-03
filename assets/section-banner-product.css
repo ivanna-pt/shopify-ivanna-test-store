@@ -54,13 +54,13 @@
   display: none;
 }
 
-.product-gallery .image-container {
+.product-gallery .product-gallery__item {
   position: relative;
   border-radius: 0.5rem;
   overflow: hidden;
 }
 
-.product-gallery .image-container.active::before {
+.product-gallery .product-gallery__item.active::before {
   content: "";
   position: absolute;
   top: 0;

@@ -52,8 +52,28 @@
                {{ 'image' | placeholder_svg_tag: 'placeholder-svg-class' }}
               {% endif %}
           </div>
-          {% comment %} TO-DO: Implement product gallery {% endcomment %}
-          <div class="product-gallery" data-color="white"></div>
+          <div class="product-gallery">
+            {% comment %}
+              Display images that match the selected color option
+              If no images match, display the first image
+            {% endcomment %}
+            {% assign selected_color =  target.options[0] | downcase %}
+            {% assign found_image = false %}                        
+            {% for image in product.images %}
+              {% assign image_url = image | image_url: width: 536 | downcase %}              
+              {% if image_url contains selected_color %}
+                <div class="product-gallery__item">
+                {{ image | image_url: width: 536 | image_tag: width: 88, height: 88, alt: image.alt }}
+                {% assign found_image = true %}
+              </div>               
+              {% endif %}
+            {% endfor %}
+            {% if found_image == false and product.images.size > 0 %}
+                <div class="product-gallery__item">
+                  {{ product.images[0] | image_url: width: 536 | image_tag: width: 88, height: 88, alt: product.images[0].alt }}
+                </div>                
+              {% endif %}            
+          </div>
         </div>
         <div class="product-info">
           <div>
