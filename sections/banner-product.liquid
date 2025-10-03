@@ -72,10 +72,7 @@
           </div>
           {% if product.variants.size > 1 %} 
               <div class="product-variants">              
-                 {% for option in product.options_with_values %}
-                  {% assign keys = "option1,option2,option3" | split: "," %}
-                  {% assign option_index = forloop.index0 %} 
-                  {% assign option_key = keys[option_index] %}
+                 {% for option in product.options_with_values %}                
                   {% assign option_name = option.name | downcase %}
   
                   {% case option_name %}
@@ -84,12 +81,11 @@
                         {{ 'products.product.banner-product.select_option' | t: option_name: option.name | default: option.name }}:
                       </p>
                       <div class=" option option--color">
-                        {%- for value in option.values limit: 3 -%}
-                          {% assign variant = product.variants | where: option_key, value | first %}
-                          {% assign variant_quantity = variant.inventory_quantity | default: variant.available %}                          
-                          <button class="color-button" data-variant-id="{{ variant.id }}" data-color="{{ value | downcase }}" data-available="{{ variant_quantity }}">
-                            {% if variant.image %}            
-                            {{ variant.image | image_url: width: 512, height: 512 | image_tag: width: 88, height: 88, alt: variant.image.alt }}
+                        {%- for value in option.values limit: 3 -%}                          
+                          {% assign variant_quantity = value.variant.inventory_quantity | default: value.variant.available %}                          
+                          <button class="color-button" data-variant-id="{{ value.variant.id }}" data-value="{{ value | downcase }}" data-available="{{ variant_quantity }}">
+                            {% if value.variant.image %}            
+                            {{ value.variant.image | image_url: width: 512, height: 512 | image_tag: width: 88, height: 88, alt: value.variant.image.alt }}
                             {% else %}
                               {{ 'image' | placeholder_svg_tag: 'placeholder-svg-class' }}
                             {% endif %}                            
@@ -100,14 +96,14 @@
                       <p>{{ 'products.product.banner-product.select_option' | t: option_name: option.name | default: option.name }}:</p>
                       <div class="option option--size">
                         {%- for value in option.values -%}
-                          <button class="size-button">{{ value }}</button>
+                          <button class="size-button" data-variant-id="{{ value.variant.id }}" data-value="{{ value | downcase }}" data-available="{{ variant_quantity }}">{{ value }}</button>
                         {%- endfor -%}
                       </div>                    
                     {%- else -%}
                       <p>{{ 'products.product.banner-product.select_option' | t: option_name: option.name | default: option.name }}:</p>
                       <div class="option option--generic">
                         {%- for value in option.values -%}
-                          <button class="generic-button">{{ value }}</button>
+                          <button class="generic-button" data-variant-id="{{ value.variant.id }}" data-value="{{ value | downcase }}" data-available="{{ variant_quantity }}">{{ value }}</button>
                         {%- endfor -%}
                       </div>
                   {% endcase %}
