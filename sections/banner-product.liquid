@@ -1,6 +1,5 @@
 {%- liquid
   assign product = section.settings.product | default: product
-  assign color_variants = product.variants | map: 'option1' | uniq
   assign target = product.selected_or_first_available_variant
   assign compare_at_price = target.compare_at_price
   assign price = target.price | default: 1999
@@ -105,7 +104,7 @@
                       </p>
                       <div class=" option option--color">
                         {%- for value in option.values limit: 3 -%}                       
-                          <button class="color-button" data-variant-id="{{ value.variant.id }}" data-product-handle="{{ product.handle }}" data-value="{{ value | downcase }}">
+                          <button class="color-button {% if option.selected_value == value %} active{% endif %}" data-variant-id="{{ value.variant.id }}" data-product-handle="{{ product.handle }}" data-value="{{ value | downcase }}">
                             {% if value.variant.image %}            
                             {{ value.variant.image | image_url: width: 512, height: 512 | image_tag: width: 88, height: 88, alt: value.variant.image.alt }}
                             {% else %}
@@ -118,14 +117,14 @@
                       <p>{{ 'products.product.banner-product.select_option' | t: option_name: option.name | default: option.name }}:</p>
                       <div class="option option--size">
                         {%- for value in option.values -%}
-                          <button class="size-button" data-variant-id="{{ value.variant.id }}" data-value="{{ value | downcase }}">{{ value }}</button>
+                          <button class="size-button {% if option.selected_value == value %}active{% endif %}" data-variant-id="{{ value.variant.id }}" data-value="{{ value | downcase }}">{{ value }}</button>
                         {%- endfor -%}
                       </div>                    
                     {%- else -%}
                       <p>{{ 'products.product.banner-product.select_option' | t: option_name: option.name | default: option.name }}:</p>
                       <div class="option option--generic">
                         {%- for value in option.values -%}
-                          <button class="generic-button" data-variant-id="{{ value.variant.id }}" data-value="{{ value | downcase }}">{{ value }}</button>
+                          <button class="generic-button {% if option.selected_value == value %} active{% endif %}" data-variant-id="{{ value.variant.id }}" data-value="{{ value | downcase }}">{{ value }}</button>
                         {%- endfor -%}
                       </div>
                   {% endcase %}
