@@ -91,7 +91,7 @@
       "type": "banner-product",
       "name": "Banner with product",
       "settings": {
-        "product": "the-liquid-basics-test-product"
+        "product": "nike-air-max-plus"
       }
     },
     "featured_collection": {
