@@ -62,14 +62,28 @@
               {% assign image_url = image | image_url: width: 536 | downcase %}              
               {% if image_url contains selected_color %}
                 <div class="product-gallery__item">
-                {{ image | image_url: width: 536 | image_tag: width: 88, height: 88, alt: image.alt }}
+                {% comment %} {{ image | image_url: width: 536 | image_tag: width: 88, height: 88, alt: image.alt }} {% endcomment %}
+                 <img src="{{ image | image_url: width: 88, height: 88 }}" alt="{{ image.alt  | default: product.title | escape }}" width="88" height="88" class="gallery-thumb" data-large="{{ image | image_url: width: 536 }}" data-srcset="
+            {{ image | image_url: width: 200 }} 200w,
+            {{ image | image_url: width: 400 }} 400w,
+            {{ image | image_url: width: 800 }} 800w,
+            {{ image | image_url: width: 1200 }} 1200w
+          "
+          data-sizes="(max-width: 600px) 100vw, 536px">          
                 {% assign found_image = true %}
               </div>               
               {% endif %}
             {% endfor %}
             {% if found_image == false and product.images.size > 0 %}
                 <div class="product-gallery__item">
-                  {{ product.images[0] | image_url: width: 536 | image_tag: width: 88, height: 88, alt: product.images[0].alt }}
+                  {% comment %} {{ product.images[0] | image_url: width: 536 | image_tag: width: 88, height: 88, alt: product.images[0].alt }} {% endcomment %}
+                  <img src="{{ product.images[0] | image_url: width: 88, height: 88 }}" alt="{{ product.images[0].alt  | default: product.title | escape }}" width="88" height="88" class="gallery-thumb" data-large="{{ product.images[0] | image_url: width: 536 }}" data-srcset="
+          {{ product.images[0] | image_url: width: 200 }} 200w,
+          {{ product.images[0] | image_url: width: 400 }} 400w,
+          {{ product.images[0] | image_url: width: 800 }} 800w,
+          {{ product.images[0] | image_url: width: 1200 }} 1200w
+        "
+        data-sizes="(max-width: 600px) 100vw, 536px">
                 </div>                
               {% endif %}            
           </div>
