@@ -1,0 +1,8 @@
+{
+  "sections": {
+    "banner-product": {
+      "type": "banner-product"
+    }
+  },
+  "order": ["banner-product"]
+}

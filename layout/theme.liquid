@@ -13,9 +13,9 @@
 
     <main>
       {{ content_for_layout }}
-      {% if template == 'index' %}
+      {% comment %} {% if template == 'index' %}
         {% section 'banner-product' %}
-      {% endif %}
+      {% endif %} {% endcomment %}
     </main>
     
 
