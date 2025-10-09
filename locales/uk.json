@@ -1,0 +1,43 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "general": {
+    "accessibility": {
+      "main_navigation": "Головне меню",
+      "toggle_navigation": "Перемкнути меню навігації",
+      "cart": "Відкрити кошик",
+      "footer_navigation": "Меню нижнього колонтитула"
+    }
+  },
+  "products": {
+    "product": {
+      "no_title": "Товар",
+      "add_to_cart": "Додати до кошика",
+      "sold_out": "Немає в наявності",
+      "on_sale": "Розпродаж",
+      "unavailable": "Недоступно",
+      "quantity": "Кількість",
+      "inventory_in_stock_show_count": "{{ quantity }} в наявності",
+      "inventory_out_of_stock": "Немає в наявності",
+      "view_product": "Переглянути товар",
+      "banner_product": {
+        "select_option": "Вибрати {{ option_name }}"
+      }
+    }
+  },
+  "sections": {
+    "header": {
+      "cart": "Кошик"
+    },
+    "footer": {
+      "copyright_text": "© {{ year }} {{ shop_name }}. Всі права захищено."
+    }
+  }
+}

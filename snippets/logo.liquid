@@ -1,0 +1,10 @@
+<a href="{{ routes.root_url }}" class="{{class}}">
+  {% assign logo = settings.logo | default: shop.brand.logo %}
+  {% assign logo_width = 100 %}
+  {% assign logo_height = 24 %}
+  {% if logo != 'blank' %}
+    {{ logo | image_url: width: logo_width, height: logo_height | image_tag: alt: shop.name, width: logo_width, height: logo_height }}
+  {% else %}
+    <span class="h2">{{ shop.name }}</span>
+  {% endif %}
+</a>

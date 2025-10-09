@@ -1,0 +1,152 @@
+{%- liquid
+  assign product = all_products['nike-air-max-plus'] | default: product
+  assign target = product.selected_or_first_available_variant
+  assign compare_at_price = target.compare_at_price
+  assign price = target.price | default: 1999
+  assign available = target.available | default: false
+  assign featured_image_alt = product.featured_image.alt | default: product.title
+
+-%}
+
+{{ 'section-banner-product.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'banner-product.js' | asset_url }}" defer="defer"></script>
+
+{% capture price_html %}
+  <div class="price-container">
+    {%- if compare_at_price > price -%}
+      <span class="price price--compare {% unless available %}price--muted{% endunless %}">{{ compare_at_price | money_without_trailing_zeros }}</span>
+    {%- endif -%}
+     <span class="price {% unless available %}price--muted{% endunless %}" data-target="{{ target.id }}">{{ price |  money_with_currency }}</span>
+     {%- if available == false -%}
+      <span class="badge badge--soldout">{{ 'products.product.sold_out' | t }}</span>
+    {%- elsif compare_at_price > price -%}
+      <span class="badge badge--sale">{{ 'products.product.on_sale' | t }}</span>
+    {%- endif -%}
+  </div>            
+{% endcapture %}
+
+  <section class="section__product-banner">
+    <div class="container">
+      <div class="product-card">
+        <div class="product-images">
+          <div class="main-image">
+            <div class="badge">              
+              {{ 'star-icon.svg' | inline_asset_content }}
+              <span class="badge-text">highly rated</span>
+            </div>            
+            {%- comment -%} Display variant image if it exists, otherwise display product featured image, otherwise display placeholder image {%- endcomment -%}
+              {% assign variant_image = target.image %}
+              {% if variant_image %}
+                {{ variant_image | image_url: width: 536 | image_tag: alt: featured_image_alt }}
+             {% elsif product.featured_image %}
+                {{ product.featured_image | image_url: width: 536 | image_tag: alt: featured_image_alt }}
+             {% else %}
+               {{ 'image' | placeholder_svg_tag: 'placeholder-svg-class' }}
+              {% endif %}
+          </div>
+          <div class="product-gallery">
+            {% comment %}
+              Display images that match the selected color option
+              If no images match, display the first image
+            {% endcomment %}
+            {% assign selected_color =  target.options[0] | downcase %}
+            {% assign found_image = false %}                        
+            {% for image in product.images %}
+              {% assign image_url = image | image_url: width: 536 | downcase %}              
+              {% if image_url contains selected_color %}
+                <div class="product-gallery__item">
+                {% comment %} {{ image | image_url: width: 536 | image_tag: width: 88, height: 88, alt: image.alt }} {% endcomment %}
+                 <img src="{{ image | image_url: width: 88, height: 88 }}" alt="{{ image.alt  | default: product.title | escape }}" width="88" height="88" class="gallery-thumb" data-large="{{ image | image_url: width: 536 }}" data-srcset="
+            {{ image | image_url: width: 200 }} 200w,
+            {{ image | image_url: width: 400 }} 400w,
+            {{ image | image_url: width: 800 }} 800w,
+            {{ image | image_url: width: 1200 }} 1200w
+          "
+          data-sizes="(max-width: 600px) 100vw, 536px">          
+                {% assign found_image = true %}
+              </div>               
+              {% endif %}
+            {% endfor %}
+            {% if found_image == false and product.images.size > 0 %}
+                <div class="product-gallery__item">
+                  {% comment %} {{ product.images[0] | image_url: width: 536 | image_tag: width: 88, height: 88, alt: product.images[0].alt }} {% endcomment %}
+                  <img src="{{ product.images[0] | image_url: width: 88, height: 88 }}" alt="{{ product.images[0].alt  | default: product.title | escape }}" width="88" height="88" class="gallery-thumb" data-large="{{ product.images[0] | image_url: width: 536 }}" data-srcset="
+          {{ product.images[0] | image_url: width: 200 }} 200w,
+          {{ product.images[0] | image_url: width: 400 }} 400w,
+          {{ product.images[0] | image_url: width: 800 }} 800w,
+          {{ product.images[0] | image_url: width: 1200 }} 1200w
+        "
+        data-sizes="(max-width: 600px) 100vw, 536px">
+                </div>                
+              {% endif %}            
+          </div>
+        </div>
+        <div class="product-info">
+          <div>
+            {% if product.title != blank %}
+            <h2 class="product-title">{{ product.title }}</h2>
+            {% else %}
+            <h2 class="product-title">{{ 'products.product.no_title' | t | default: 'Product' }}</h2>
+            {% endif %}
+            {%  if price_html != blank %}
+              {{ price_html }}
+            {% endif %}
+            <div class="product--inventory_quantity">              
+             <span class="text-secondary text-medium">
+                {% if target.available %}
+                  {{ 'products.product.inventory_in_stock_show_count' | t: quantity: target.inventory_quantity }}
+                {% else %}
+                  {{ 'products.product.inventory_out_of_stock' | t }}
+                {% endif %}
+              </span>   
+            </div>
+          </div>
+          {% if product.variants.size > 1 %} 
+              <div class="product-variants">              
+                {% for option in product.options_with_values %}                
+                  {% assign option_name = option.name | downcase %}
+  
+                  {% case option_name %}
+                    {%- when 'color', 'colour' -%}
+                      <p>
+                        {{ 'products.product.banner_product.select_option' | t: option_name: option.name | default: option.name }}:
+                      </p>
+                      <div class=" option option--color">
+                        {%- for value in option.values limit: 3 -%}                       
+                          <button class="color-button {% if option.selected_value == value %} active{% endif %}" data-variant-id="{{ value.variant.id }}" data-product-handle="{{ product.handle }}" data-value="{{ value | downcase }}">
+                            {% if value.variant.image %}            
+                            {{ value.variant.image | image_url: width: 512, height: 512 | image_tag: width: 88, height: 88, alt: value.variant.image.alt }}
+                            {% else %}
+                              {{ 'image' | placeholder_svg_tag: 'placeholder-svg-class' }}
+                            {% endif %}                            
+                            </button>
+                        {%- endfor -%}
+                      </div>
+                    {%- when "size" -%}
+                      <p>{{ 'products.product.banner_product.select_option' | t: option_name: option.name | default: option.name }}:</p>
+                      <div class="option option--size">
+                        {%- for value in option.values -%}
+                          <button class="size-button {% if option.selected_value == value %}active{% endif %}" data-variant-id="{{ value.variant.id }}" data-value="{{ value | downcase }}">{{ value }}</button>
+                        {%- endfor -%}
+                      </div>                    
+                    {%- else -%}
+                      <p>{{ 'products.product.banner_product.select_option' | t: option_name: option.name | default: option.name }}:</p>
+                      <div class="option option--generic">
+                        {%- for value in option.values -%}
+                          <button class="generic-button {% if option.selected_value == value %} active{% endif %}" data-variant-id="{{ value.variant.id }}" data-value="{{ value | downcase }}">{{ value }}</button>
+                        {%- endfor -%}
+                      </div>
+                  {% endcase %}
+                {% endfor %}
+              </div>
+          {% endif %}
+          {% comment %} TO-DO: Implement product form {% endcomment %}
+          <button class="btn btn-black add-to-cart">{{ 'products.product.add_to_cart' | t }}</button>
+          {% if product.description != blank %}
+             <div class="product-description">{{ product.description }}</div>
+           {% endif %}
+         </div>
+       </div>
+     </div>
+  </section>

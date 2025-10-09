@@ -1,0 +1,216 @@
+.section__product-banner {
+  /* --text-primary: #111111;
+  --text-secondary: #737373;
+  --border-color: #ebebeb;
+  --background-light: #f5f5f5;
+  --color-white: #ffffff; */
+  padding-top: 36px;
+  padding-bottom: 12px;
+}
+.product-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.product-images {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.product-images .main-image {
+  position: relative;
+}
+
+.product-images .main-image .badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background-color: var(--color-white);
+  text-transform: capitalize;
+  border-radius: 4px;
+}
+
+.product-images .main-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+  border-radius: 0.5rem;
+}
+
+.product-gallery {
+  display: flex;
+  gap: 1rem;
+  overflow: hidden;
+}
+
+.product-gallery.hidden {
+  display: none;
+}
+
+.product-gallery .product-gallery__item {
+  position: relative;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.product-gallery .product-gallery__item.active::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(17, 17, 17, 0.2);
+}
+
+.product-gallery img {
+  max-width: 88px;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.product-info .price-container {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.product-info .price {
+  color: var(--color-foreground);
+  font-size: 1rem;
+  /* font-weight: 600; */
+}
+
+.product-info .price--compare {
+  text-decoration: line-through;
+  font-weight: 300;
+}
+
+.product-info .price--muted {
+  opacity: 0.6;
+}
+
+.product-info .badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 500;
+}
+.product-info .badge.badge--soldout {
+  background-color: #808080;
+}
+
+.product-info .badge.badge--sale {
+  background-color: #dc143c;
+}
+
+.product-info .product-description {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.product-variants .option {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.product-variants .option > button {
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  overflow: hidden;
+  color: var(--color-foreground);
+}
+
+.product-variants .option > button:hover,
+.product-variants .option > button:focus,
+.product-variants .option > button.active {
+  border-color: #000;
+  cursor: pointer;
+}
+
+.product-variants .color-button.active {
+  border-color: #000;
+}
+
+.product-variants .option--color .color-button {
+  padding: 0;
+  width: 88px;
+  height: 88px;
+}
+
+.product-variants .color-button img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.product-variants .option--size .grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.product-variants .option > button:not(.color-button) {
+  padding: 1rem;
+  height: 52px;
+  font-size: 1.6rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-color);
+  background-color: var(--color-white);
+}
+
+.product-variants .option > button:not(.color-button).active,
+.product-variants .option > button:not(.color-button):hover {
+  border-color: var(--text-primary);
+}
+
+.product-info .add-to-cart {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .product-card {
+    flex-direction: row;
+  }
+  .product-card .product-images,
+  .product-card .product-info {
+    flex: 1;
+  }
+}
+
+@media (min-width: 1280px) {
+  .product-images {
+    flex-direction: row-reverse;
+    gap: 1.5rem;
+  }
+  .product-gallery {
+    flex-direction: column;
+    gap: 1.5rem;
+    flex: 1 0 88px;
+  }
+  .product-info .size-options .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
