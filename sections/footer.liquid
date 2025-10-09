@@ -7,18 +7,9 @@
     {% assign policies_menu = linklists.policies-menu %}
     <div class="footer-grid">
       {%  render 'logo', class: 'footer-logo' %}
-    {% if footer_menu.links.size > 0 %}
-      <nav class="footer-nav" aria-label="{{ 'general.accessibility.footer_navigation' | t }}">
-        <h4 class="footer-nav-title">{{ footer_menu.title }}</h4>
-        <ul class="footer-nav-list">
-          {%- for link in footer_menu.links -%}
-            <li class="footer-nav-item">
-              <a href="{{ link.url }}" class="footer-link">{{ link.title }}</a>
-            </li>
-          {% endfor %}
-        </ul>
-      </nav>
-    {% endif %}
+      {% if footer_menu.links.size > 0 %}
+        {% render 'footer-nav', navigation: footer_menu %}  
+      {% endif %}
     </div>
     <div class="footer-copyright">
         <div class="copyright-content">{{ 'sections.footer.copyright_text' | t: year: current_year, shop_name: shop.name }}</div>        
