@@ -8,9 +8,6 @@ footer {
   margin-bottom: 3rem;
 }
 
-.footer-nav-list {
-}
-
 .footer-nav-list > li + li {
   margin-top: 0.75rem;
 }
