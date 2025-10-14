@@ -1,0 +1,39 @@
+{{ 'section-promo-banners.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+{%- endstyle -%}
+
+<div class="promo-banners  ">
+  <div class="promo-banners__container page-width">
+    <div class="promo-banners__heading-group"></div>
+    <div class="promo-banners__grid">
+      <div class="promo-banner">
+        <div class="promo-banner__media"></div>
+        <div class="promo-banner__content"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Promo Banners",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [],
+  "blocks": [
+    {
+      "type": "promo_banner",
+      "name": "Promo Banner",
+      "settings": []
+    }
+  ],
+  "presets": [
+    {
+      "name": "Promo Banners"
+    }
+  ]
+}
+{% endschema %}
