@@ -1,0 +1,10 @@
+.promo-banners__heading-group,
+.promo-banners__heading-group--left {
+  text-align: left;
+}
+.promo-banners__heading-group--center {
+  text-align: center;
+}
+.promo-banners__heading-group--right {
+  text-align: right;
+}
