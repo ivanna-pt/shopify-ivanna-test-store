@@ -26,10 +26,10 @@
     </div>
     <div class="promo-banners__grid">
       {%- for block in section.blocks -%}
-        <div class="promo-banner">
+        {%- assign aspect_ratio = block.settings.image_aspect_ratio -%}
+        <div class="promo-banner promo-banner--{{ aspect_ratio }}">
           <div class="promo-banner__media">
             {%- if block.settings.image != blank -%}
-              {%- assign aspect_ratio = block.settings.image_aspect_ratio -%}
               {%- case aspect_ratio -%}
                 {%- when 'square' -%}
                   {%- assign image_width = 800 -%}
@@ -44,11 +44,11 @@
                   {%- assign image_width = 800 -%}
                   {%- assign image_height = 800 -%}
               {%- endcase -%}
-              {%- assign image_class = 'promo-banner__img promo-banner__img--' | append: aspect_ratio -%}
+
               {{
                 block.settings.image
                 | image_url: width: image_width, height: image_height
-                | image_tag: width: image_width, height: image_height, class: image_class, loading: 'lazy'
+                | image_tag: width: image_width, height: image_height, class: 'promo-banner__img', loading: 'lazy'
               }}
             {%- else -%}
               {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}

@@ -33,8 +33,18 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  min-height: 320px;
+  /* min-height: 320px; */
   overflow: hidden;
+}
+
+.promo-banner--landscape {
+  aspect-ratio: 3 / 2;
+}
+.promo-banner--widescreen {
+  aspect-ratio: 16 / 9;
+}
+.promo-banner--square {
+  aspect-ratio: 1 / 1;
 }
 
 .promo-banner__media {
@@ -51,16 +61,6 @@
   height: 100%;
   object-fit: cover;
   display: block;
-}
-
-.promo-banner__img--landscape {
-  aspect-ratio: 3 / 2;
-}
-.promo-banner__img--widescreen {
-  aspect-ratio: 16 / 9;
-}
-.promo-banner__img--square {
-  aspect-ratio: 1 / 1;
 }
 
 .promo-banner__content {
