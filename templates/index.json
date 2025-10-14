@@ -87,6 +87,13 @@
         "accessibility_info": "Slideshow about our brand"
       }
     },
+    "banner_product_UQWCJh": {
+      "type": "banner-product",
+      "name": "Banner with product",
+      "settings": {
+        "product": "nike-air-max-plus"
+      }
+    },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
@@ -118,6 +125,7 @@
   },
   "order": [
     "slideshow_eykfjd",
+    "banner_product_UQWCJh",
     "featured_collection"
   ]
 }
