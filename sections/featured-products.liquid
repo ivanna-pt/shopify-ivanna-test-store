@@ -1,0 +1,112 @@
+{{ 'section-featured-products.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+{% endstyle %}
+
+<div class="featured-products section-{{ section.id }}">
+  <div class="featured-products__container page-width">
+    {%- if section.settings.section_title != blank -%}
+      <h2 class="featured-products__title">{{ section.settings.section_title }}</h2>
+    {%- endif -%}
+    <div class="featured-products__filter">
+      <!-- Future filter options can be added here -->
+    </div>
+    {%- if section.settings.collection != blank -%}
+      {%- assign products = section.settings.collection.products -%}
+      {%- assign products_to_show = section.settings.products_to_show -%}
+      <ul class="featured-products__grid">
+        {%- for product in products limit: products_to_show -%}
+          <li class="featured-product">
+            <a href="{{ product.url }}" class="featured-product__link">
+              <div class="featured-product__image">
+                {%- if product.featured_image -%}
+                  {{
+                    product.featured_image
+                    | image_url: width: 500, height: 500
+                    | image_tag: width: 269, height: 269, loading: 'lazy'
+                  }}
+                {%- else -%}
+                  {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                {%- endif -%}
+              </div>
+              <div class="featured-product__info">
+                <h3 class="featured-product__title">{{ product.title }}</h3>
+                {%- if section.settings.show_price -%}
+                  <div class="featured-product__price">
+                    {{ product.price | money }}
+                  </div>
+                {%- endif -%}
+                {%- if section.settings.show_rating -%}
+                  <div class="featured-product__rating">Rating: 5 / 5</div>
+                {%- endif -%}
+              </div>
+            </a>
+            {%- if section.settings.show_add_to_cart -%}
+              <form method="post" action="{{ routes.cart_add_url }}" class="featured-product__form">
+                <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+                <button type="submit" class="featured-product__add-to-cart">Add to Cart</button>
+              </form>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- else -%}
+      <p>Please select a collection to display featured products.</p>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Featured Products",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "Featured Products"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Select Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Number of products to show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show Price",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show Rating",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_add_to_cart",
+      "label": "Show Add to Cart Button",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Products",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
