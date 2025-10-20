@@ -136,6 +136,18 @@
         "section_color_scheme": "light"
       }
     },
+    "featured_products_dncGi7": {
+      "type": "featured-products",
+      "name": "Featured Products",
+      "settings": {
+        "section_title": "Featured Products",
+        "collection": "automated-collection",
+        "products_to_show": 6,
+        "show_price": true,
+        "show_rating": false,
+        "show_add_to_cart": true
+      }
+    },
     "banner_product_UQWCJh": {
       "type": "banner-product",
       "name": "Banner with product",
@@ -175,6 +187,7 @@
   "order": [
     "slideshow_eykfjd",
     "promo_banners_zK9yew",
+    "featured_products_dncGi7",
     "banner_product_UQWCJh",
     "featured_collection"
   ]
