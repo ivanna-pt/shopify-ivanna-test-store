@@ -31,9 +31,9 @@
       {%- assign products_to_show = section.settings.products_to_show -%}
       <ul class="featured-products__grid">
         {%- for product in products limit: products_to_show -%}
-          <li class="featured-product">
-            <a href="{{ product.url }}" class="featured-product__link">
-              <div class="featured-product__image">
+          <li class="product-card" data-variant-id="{{ product.first_available_variant.id }}">
+            <a href="{{ product.url }}" class="product-card__link">
+              <div class="product-card__image">
                 {%- if product.featured_image -%}
                   {{
                     product.featured_image
@@ -44,23 +44,31 @@
                   {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
                 {%- endif -%}
               </div>
-              <div class="featured-product__info">
-                <h3 class="featured-product__title">{{ product.title }}</h3>
+              <div class="product-card__info">
+                <h3 class="product-card__title">{{ product.title }}</h3>
                 {%- if section.settings.show_price -%}
-                  <div class="featured-product__price">
+                  <div class="product-card__price">
                     {{ product.price | money }}
                   </div>
                 {%- endif -%}
                 {%- if section.settings.show_rating -%}
-                  <div class="featured-product__rating">Rating: 5 / 5</div>
+                  <div class="product-card__rating">Rating: 5 / 5</div>
                 {%- endif -%}
               </div>
             </a>
             {%- if section.settings.show_add_to_cart -%}
-              <form method="post" action="{{ routes.cart_add_url }}" class="featured-product__form">
-                <input type="hidden" name="id" value="{{ product.variants.first.id }}">
-                <button type="submit" class="featured-product__add-to-cart">Add to Cart</button>
-              </form>
+              {% comment %} Add to cart with a build-in form and hidden input {% endcomment %}
+              {% comment %}
+                <form method="post" action="{{ routes.cart_add_url }}" class="product-card__form">
+                  <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+                  <button type="submit" class="product-card__add-to-cart">Add to Cart</button>
+                </form>
+              {% endcomment %}
+
+              {% comment %}
+                Add to cart with AJAX
+              {% endcomment %}
+              <button type="button" class="button product-card__add-to-cart" data-add-to-cart>Add to Cart</button>
             {%- endif -%}
           </li>
         {%- endfor -%}
