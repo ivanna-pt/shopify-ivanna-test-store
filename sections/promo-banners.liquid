@@ -14,7 +14,7 @@
     }
 {%- endstyle -%}
 
-<div class="promo-banners section-{{ section.id }}-padding color-scheme-{{ section.settings.section_color_scheme }} ">
+<div class="promo-banners section-{{ section.id }}-padding color-scheme--{{ section.settings.section_color_scheme }} ">
   <div class="promo-banners__container page-width">
     <div class="promo-banners__heading-group promo-banners__heading-group--{{ section.settings.content_alignment }} ">
       {%- if section.settings.heading != blank -%}
@@ -59,7 +59,12 @@
               <h3 class="promo-banner__title">{{ block.settings.title }}</h3>
             {%- endif -%}
             {%- if block.settings.button_label != blank -%}
-              <a href="{{ block.settings.button_link }}" class="button ">{{ block.settings.button_label | escape }}</a>
+              <a
+                href="{{ block.settings.button_link }}"
+                class="button {% if section.settings.section_color_scheme == 'accent' %}button--accent{% endif %}"
+              >
+                {{- block.settings.button_label | escape -}}
+              </a>
             {%- endif -%}
           </div>
         </div>
@@ -145,10 +150,24 @@
       "content": "Color scheme"
     },
     {
-      "type": "color_scheme",
+      "type": "select",
       "id": "section_color_scheme",
       "label": "Select color scheme",
-      "default": "scheme-1"
+      "options": [
+        {
+          "value": "light",
+          "label": "Light"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        },
+        {
+          "value": "accent",
+          "label": "Accent"
+        }
+      ],
+      "default": "light"
     }
   ],
   "blocks": [

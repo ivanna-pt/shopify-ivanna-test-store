@@ -1,3 +1,28 @@
+.promo-banners.color-scheme--light {
+  --promo-banners-bg-color: #ffffff;
+  --promo-banners-text-color: #000000;
+  --promo-banners-content-bg-color: rgba(0, 0, 0, 0.4);
+  --promo-banners-content-text-color: #ffffff;
+}
+.promo-banners.color-scheme--dark {
+  --promo-banners-bg-color: #000000;
+  --promo-banners-text-color: #ffffff;
+  --promo-banners-content-bg-color: rgba(255, 255, 255, 0.4);
+  --promo-banners-content-text-color: #000000;
+}
+.promo-banners.color-scheme--accent {
+  --promo-banners-bg-color: #dedede;
+  --promo-banners-text-color: #000000;
+  --promo-banners-accent-color: #0f8f5c;
+  --promo-banners-content-bg-color: rgba(0, 0, 0, 0.4);
+  --promo-banners-content-text-color: #ffffff;
+}
+
+.promo-banners {
+  background-color: var(--promo-banners-bg-color);
+  color: var(--promo-banners-text-color);
+}
+
 .promo-banners__heading-group,
 .promo-banners__heading-group--left {
   text-align: left;
@@ -7,6 +32,14 @@
 }
 .promo-banners__heading-group--right {
   text-align: right;
+}
+
+.promo-banners__heading {
+  color: var(--promo-banners-text-color);
+}
+
+.promo-banners.color-scheme--accent .promo-banners__heading {
+  color: var(--promo-banners-accent-color);
 }
 
 .promo-banners__grid {
@@ -69,8 +102,8 @@
   z-index: 2;
   width: 100%;
   padding: 2rem;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.4);
+  color: var(--promo-banners-content-text-color);
+  background: var(--promo-banners-content-bg-color);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -78,5 +111,9 @@
 }
 
 .promo-banner__title {
-  color: #fff;
+  color: var(--promo-banners-content-text-color);
+}
+
+.promo-banner .button.button--accent {
+  background-color: var(--promo-banners-accent-color);
 }
