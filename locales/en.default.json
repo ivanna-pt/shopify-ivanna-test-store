@@ -537,5 +537,18 @@
       "send_on": "YYYY-MM-DD",
       "send_on_label": "Send on (optional)"
     }
+  },
+  "custom_sections": {
+    "featured_products": {
+      "sort_by": "Sort by",
+      "best_selling": "Best selling",
+      "title_asc": "Name, A-Z",
+      "title_desc": "Name, Z-A",
+      "price_asc": "Price, low to high",
+      "price_desc": "Price, high to low",
+      "rating": "Rating: {{number}} / 5",
+      "no_collection": "Please select a collection in the section settings.",
+      "no_products": "No products found in this collection"
+    }
   }
 }

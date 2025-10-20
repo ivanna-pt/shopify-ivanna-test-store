@@ -16,13 +16,13 @@
     {%- endif -%}
     <div class="featured-products__sort-by">
       <form id="SortByForm" class="collection-sort">
-        <label for="SortBy">Sort by:</label>
+        <label for="SortBy">{{ 'custom_sections.featured_products.sort_by' | t }}</label>
         <select name="sort_by" id="SortBy" class="collection-sort__select">
-          <option value="best-selling" selected>Best selling</option>
-          <option value="price-ascending">Price: Low to High</option>
-          <option value="price-descending">Price: High to Low</option>
-          <option value="title-ascending">Name: A–Z</option>
-          <option value="title-descending">Name: Z–A</option>
+          <option value="best-selling" selected>{{ 'custom_sections.featured_products.best_selling' | t }}</option>
+          <option value="price-ascending">{{ 'custom_sections.featured_products.price_asc' | t }}</option>
+          <option value="price-descending">{{ 'custom_sections.featured_products.price_desc' | t }}</option>
+          <option value="title-ascending">{{ 'custom_sections.featured_products.title_asc' | t }}</option>
+          <option value="title-descending">{{ 'custom_sections.featured_products.title_desc' | t }}</option>
         </select>
       </form>
     </div>
@@ -52,7 +52,9 @@
                   </div>
                 {%- endif -%}
                 {%- if section.settings.show_rating -%}
-                  <div class="product-card__rating">Rating: 5 / 5</div>
+                  <div class="product-card__rating">
+                    {{ 'custom_sections.featured_products.rating' | t: number: 5 }}
+                  </div>
                 {%- endif -%}
               </div>
             </a>
@@ -68,13 +70,15 @@
               {% comment %}
                 Add to cart with AJAX
               {% endcomment %}
-              <button type="button" class="button product-card__add-to-cart" data-add-to-cart>Add to Cart</button>
+              <button type="button" class="button product-card__add-to-cart" data-add-to-cart>
+                {{ 'products.product.add_to_cart' | t }}
+              </button>
             {%- endif -%}
           </li>
         {%- endfor -%}
       </ul>
     {%- else -%}
-      <p>Please select a collection to display featured products.</p>
+      <p>{{ 'custom_sections.featured_products.no_collection' | t }}</p>
     {%- endif -%}
   </div>
 </div>
