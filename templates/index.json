@@ -87,6 +87,55 @@
         "accessibility_info": "Slideshow about our brand"
       }
     },
+    "promo_banners_zK9yew": {
+      "type": "promo-banners",
+      "blocks": {
+        "promo_banner_RDEP7t": {
+          "type": "promo_banner",
+          "settings": {
+            "image": "shopify://shop_images/white-sneakers-front-view.webp",
+            "title": "Special Offer",
+            "button_link": "shopify://products/nike-air-max-plus",
+            "button_label": "Shop Now",
+            "image_aspect_ratio": "square"
+          }
+        },
+        "promo_banner_BVBypT": {
+          "type": "promo_banner",
+          "settings": {
+            "image": "shopify://shop_images/pink-sneakers-2.webp",
+            "title": "Special Offer",
+            "button_link": "shopify://products/nike-air-max-plus",
+            "button_label": "Shop Now",
+            "image_aspect_ratio": "square"
+          }
+        },
+        "promo_banner_4Jm7WQ": {
+          "type": "promo_banner",
+          "settings": {
+            "image": "shopify://shop_images/black-sneakers-1.webp",
+            "title": "Special Offer",
+            "button_link": "shopify://products/nike-air-max-plus",
+            "button_label": "Shop Now",
+            "image_aspect_ratio": "square"
+          }
+        }
+      },
+      "block_order": [
+        "promo_banner_RDEP7t",
+        "promo_banner_BVBypT",
+        "promo_banner_4Jm7WQ"
+      ],
+      "name": "Promo Banners",
+      "settings": {
+        "heading": "Our Promotions",
+        "subtitle": "<p>Check out our latest offers and deals!</p>",
+        "content_alignment": "center",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "section_color_scheme": "light"
+      }
+    },
     "banner_product_UQWCJh": {
       "type": "banner-product",
       "name": "Banner with product",
@@ -125,6 +174,7 @@
   },
   "order": [
     "slideshow_eykfjd",
+    "promo_banners_zK9yew",
     "banner_product_UQWCJh",
     "featured_collection"
   ]
