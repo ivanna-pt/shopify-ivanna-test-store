@@ -549,6 +549,13 @@
       "rating": "Rating: {{number}} / 5",
       "no_collection": "Please select a collection in the section settings.",
       "no_products": "No products found in this collection"
+    },
+    "profile_cards": {
+      "bio": "Bio",
+      "tags": "Tags",
+      "links": "Porfolio links",
+      "date": "Date of birth",
+      "verified": "Verified {{position}}"
     }
   }
 }

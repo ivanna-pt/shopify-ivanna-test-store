@@ -31,13 +31,13 @@
             <div class="profile-card__info">
               {%- if profile.profile_bio != blank -%}
                 <div class="profile-card__info-item">
-                  <div class="profile-card__info-title">Bio</div>
+                  <div class="profile-card__info-title">{{ 'custom_sections.profile_cards.bio' | t }}</div>
                   <p class="profile-card__bio">{{ profile.profile_bio }}</p>
                 </div>
               {%- endif -%}
               {%- if profile.tags != blank -%}
                 <div class="profile-card__info-item">
-                  <div class="profile-card__info-title">Tags</div>
+                  <div class="profile-card__info-title">{{ 'custom_sections.profile_cards.tags' | t }}</div>
                   <div class="profile-card__tags">
                     {% for tag in profile.tags.value %}
                       <span class="profile-card__tag">{{ tag }}</span>
@@ -47,7 +47,7 @@
               {%- endif -%}
               {%- if profile.portfolio_links != blank -%}
                 <div class="profile-card__info-item">
-                  <div class="profile-card__info-title">Portfolio links</div>
+                  <div class="profile-card__info-title">{{ 'custom_sections.profile_cards.links' | t }}</div>
                   <div class="profile-card__links">
                     {% for link in profile.portfolio_links.value %}
                       <a href="{{ link }}" class="profile-card__link">{{ link }}</a>
@@ -57,13 +57,15 @@
               {%- endif -%}
               {%- if profile.birth_date != blank -%}
                 <div class="profile-card__info-item">
-                  <div class="profile-card__info-title">Date of birth</div>
+                  <div class="profile-card__info-title">{{ 'custom_sections.profile_cards.date' | t }}</div>
                   <p class="profile-card__birth">{{ profile.birth_date | date: '%B %d, %Y' }}</p>
                 </div>
               {%- endif -%}
               {%- if profile.verified == true -%}
                 <div class="profile-card__info-item">
-                  <span class="profile-card__verified">Verified Designer</span>
+                  <span class="profile-card__verified">
+                    {{- 'custom_sections.profile_cards.verified' | t: position: profile.position -}}
+                  </span>
                 </div>
               {%- endif -%}
             </div>
