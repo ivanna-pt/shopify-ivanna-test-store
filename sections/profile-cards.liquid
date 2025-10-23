@@ -1,0 +1,173 @@
+{{ 'section-profile-cards.css' | asset_url | stylesheet_tag }}
+
+<div class="profile-cards section-{{ section.id }}">
+  <div class="profile-cards__container page-width">
+    {%- if section.settings.section_title != blank -%}
+      <h2 class="profile-cards__title">{{ section.settings.section_title }}</h2>
+    {%- endif -%}
+    <div class="profile-cards__grid">
+      {% if collection.metafields.custom.designer_profiles != blank %}
+        {%- for profile in collection.metafields.custom.designer_profiles.value -%}
+          <div class="profile-card">
+            <div class="profile-card__header">
+              <div class="profile-card__image">
+                {%- if profile.image != blank -%}
+                  {{
+                    profile.image
+                    | image_url: width: 400, height: 400
+                    | image_tag: width: 200, height: 200, loading: 'lazy'
+                  }}
+                {%- else -%}
+                  {{ 'person-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                {%- endif -%}
+              </div>
+              {%- if profile.profile_name != blank -%}
+                <h3 class="profile-card__name">{{ profile.profile_name }}</h3>
+              {%- endif -%}
+              {%- if profile.position != blank -%}
+                <div class="profile-card__position">{{ profile.position }}</div>
+              {%- endif -%}
+            </div>
+            <div class="profile-card__info">
+              {%- if profile.profile_bio != blank -%}
+                <div class="profile-card__info-item">
+                  <div class="profile-card__info-title">Bio</div>
+                  <p class="profile-card__bio">{{ profile.profile_bio }}</p>
+                </div>
+              {%- endif -%}
+              {%- if profile.tags != blank -%}
+                <div class="profile-card__info-item">
+                  <div class="profile-card__info-title">Tags</div>
+                  <div class="profile-card__tags">
+                    {% for tag in profile.tags.value %}
+                      <span class="profile-card__tag">{{ tag }}</span>
+                    {% endfor %}
+                  </div>
+                </div>
+              {%- endif -%}
+              {%- if profile.portfolio_links != blank -%}
+                <div class="profile-card__info-item">
+                  <div class="profile-card__info-title">Portfolio links</div>
+                  <div class="profile-card__links">
+                    {% for link in profile.portfolio_links.value %}
+                      <a href="{{ link }}" class="profile-card__link">{{ link }}</a>
+                    {% endfor %}
+                  </div>
+                </div>
+              {%- endif -%}
+              {%- if profile.birth_date != blank -%}
+                <div class="profile-card__info-item">
+                  <div class="profile-card__info-title">Date of birth</div>
+                  <p class="profile-card__birth">{{ profile.birth_date | date: '%B %d, %Y' }}</p>
+                </div>
+              {%- endif -%}
+              {%- if profile.verified == true -%}
+                <div class="profile-card__info-item">
+                  <span class="profile-card__verified">Verified Designer</span>
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      {% endif %}
+      {% comment %}
+        Note: Section schema blocks are disabled as they are not compatible with the current metaobject-based profile system
+      {% endcomment %}
+      {% comment %}
+        {%- for block in section.blocks -%}
+          <div class="profile-card">
+            <div class="profile-card__image">
+              {%- if block.settings.profile_image != blank -%}
+                {{
+                  block.settings.profile_image
+                  | image_url: width: 400, height: 400
+                  | image_tag: width: 200, height: 200, loading: 'lazy'
+                }}
+              {%- else -%}
+                {{ 'person-placeholder' | placeholder_svg_tag: 'placeholder-svg' }}
+              {%- endif -%}
+            </div>
+            <div class="profile-card__info">
+              {%- if block.settings.profile_name != blank -%}
+                <h3 class="profile-card__name">{{ block.settings.profile_name }}</h3>
+              {%- endif -%}
+              {%- if block.settings.position != blank -%}
+                <div class="profile-card__position">{{ block.settings.position }}</div>
+              {%- endif -%}
+              {%- if block.settings.profile_bio != blank -%}
+                <p class="profile-card__bio">{{ block.settings.profile_bio }}</p>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      {% endcomment %}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Profile Cards",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "Our Designers"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "profile_card",
+      "name": "Profile Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "profile_image",
+          "label": "Profile Image"
+        },
+        {
+          "type": "text",
+          "id": "profile_name",
+          "label": "Profile Name",
+          "default": "John Doe"
+        },
+        {
+          "type": "text",
+          "id": "position",
+          "label": "Position",
+          "default": "Designer"
+        },
+        {
+          "type": "textarea",
+          "id": "profile_bio",
+          "label": "Profile Bio",
+          "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_social_links",
+          "label": "Show Social Links",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "date",
+          "label": "Birth Date"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_verified",
+          "label": "Verified Profile",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Profile cards",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
