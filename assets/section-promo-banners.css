@@ -1,0 +1,119 @@
+.promo-banners.color-scheme--light {
+  --promo-banners-bg-color: #ffffff;
+  --promo-banners-text-color: #000000;
+  --promo-banners-content-bg-color: rgba(0, 0, 0, 0.4);
+  --promo-banners-content-text-color: #ffffff;
+}
+.promo-banners.color-scheme--dark {
+  --promo-banners-bg-color: #000000;
+  --promo-banners-text-color: #ffffff;
+  --promo-banners-content-bg-color: rgba(255, 255, 255, 0.4);
+  --promo-banners-content-text-color: #000000;
+}
+.promo-banners.color-scheme--accent {
+  --promo-banners-bg-color: #dedede;
+  --promo-banners-text-color: #000000;
+  --promo-banners-accent-color: #0f8f5c;
+  --promo-banners-content-bg-color: rgba(0, 0, 0, 0.4);
+  --promo-banners-content-text-color: #ffffff;
+}
+
+.promo-banners {
+  background-color: var(--promo-banners-bg-color);
+  color: var(--promo-banners-text-color);
+}
+
+.promo-banners__heading-group,
+.promo-banners__heading-group--left {
+  text-align: left;
+}
+.promo-banners__heading-group--center {
+  text-align: center;
+}
+.promo-banners__heading-group--right {
+  text-align: right;
+}
+
+.promo-banners__heading {
+  color: var(--promo-banners-text-color);
+}
+
+.promo-banners.color-scheme--accent .promo-banners__heading {
+  color: var(--promo-banners-accent-color);
+}
+
+.promo-banners__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 600px) {
+  .promo-banners__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 990px) {
+  .promo-banners__grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+.promo-banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  /* min-height: 320px; */
+  overflow: hidden;
+}
+
+.promo-banner--landscape {
+  aspect-ratio: 3 / 2;
+}
+.promo-banner--widescreen {
+  aspect-ratio: 16 / 9;
+}
+.promo-banner--square {
+  aspect-ratio: 1 / 1;
+}
+
+.promo-banner__media {
+  /* position: absolute;
+  inset: 0; */
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.promo-banner__img,
+.placeholder-svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.promo-banner__content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  padding: 2rem;
+  color: var(--promo-banners-content-text-color);
+  background: var(--promo-banners-content-bg-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.promo-banner__title {
+  color: var(--promo-banners-content-text-color);
+}
+
+.promo-banner .button.button--accent {
+  background-color: var(--promo-banners-accent-color);
+}
