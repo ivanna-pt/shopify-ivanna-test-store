@@ -1,12 +1,11 @@
 {{ 'section-profile-cards.css' | asset_url | stylesheet_tag }}
-
-<div class="profile-cards section-{{ section.id }}">
-  <div class="profile-cards__container page-width">
-    {%- if section.settings.section_title != blank -%}
-      <h2 class="profile-cards__title">{{ section.settings.section_title }}</h2>
-    {%- endif -%}
-    <div class="profile-cards__grid">
-      {% if collection.metafields.custom.designer_profiles != blank %}
+{% if collection.metafields.custom.designer_profiles != blank %}
+  <div class="profile-cards section-{{ section.id }}">
+    <div class="profile-cards__container page-width">
+      {%- if section.settings.section_title != blank -%}
+        <h2 class="profile-cards__title">{{ section.settings.section_title }}</h2>
+      {%- endif -%}
+      <div class="profile-cards__grid">
         {%- for profile in collection.metafields.custom.designer_profiles.value -%}
           <div class="profile-card">
             <div class="profile-card__header">
@@ -71,41 +70,42 @@
             </div>
           </div>
         {%- endfor -%}
-      {% endif %}
-      {% comment %}
-        Note: Section schema blocks are disabled as they are not compatible with the current metaobject-based profile system
-      {% endcomment %}
-      {% comment %}
-        {%- for block in section.blocks -%}
-          <div class="profile-card">
-            <div class="profile-card__image">
-              {%- if block.settings.profile_image != blank -%}
-                {{
-                  block.settings.profile_image
-                  | image_url: width: 400, height: 400
-                  | image_tag: width: 200, height: 200, loading: 'lazy'
-                }}
-              {%- else -%}
-                {{ 'person-placeholder' | placeholder_svg_tag: 'placeholder-svg' }}
-              {%- endif -%}
+
+        {% comment %}
+          Note: Section schema blocks are disabled as they are not compatible with the current metaobject-based profile system
+        {% endcomment %}
+        {% comment %}
+          {%- for block in section.blocks -%}
+            <div class="profile-card">
+              <div class="profile-card__image">
+                {%- if block.settings.profile_image != blank -%}
+                  {{
+                    block.settings.profile_image
+                    | image_url: width: 400, height: 400
+                    | image_tag: width: 200, height: 200, loading: 'lazy'
+                  }}
+                {%- else -%}
+                  {{ 'person-placeholder' | placeholder_svg_tag: 'placeholder-svg' }}
+                {%- endif -%}
+              </div>
+              <div class="profile-card__info">
+                {%- if block.settings.profile_name != blank -%}
+                  <h3 class="profile-card__name">{{ block.settings.profile_name }}</h3>
+                {%- endif -%}
+                {%- if block.settings.position != blank -%}
+                  <div class="profile-card__position">{{ block.settings.position }}</div>
+                {%- endif -%}
+                {%- if block.settings.profile_bio != blank -%}
+                  <p class="profile-card__bio">{{ block.settings.profile_bio }}</p>
+                {%- endif -%}
+              </div>
             </div>
-            <div class="profile-card__info">
-              {%- if block.settings.profile_name != blank -%}
-                <h3 class="profile-card__name">{{ block.settings.profile_name }}</h3>
-              {%- endif -%}
-              {%- if block.settings.position != blank -%}
-                <div class="profile-card__position">{{ block.settings.position }}</div>
-              {%- endif -%}
-              {%- if block.settings.profile_bio != blank -%}
-                <p class="profile-card__bio">{{ block.settings.profile_bio }}</p>
-              {%- endif -%}
-            </div>
-          </div>
-        {%- endfor -%}
-      {% endcomment %}
+          {%- endfor -%}
+        {% endcomment %}
+      </div>
     </div>
   </div>
-</div>
+{% endif %}
 {% schema %}
 {
   "name": "Profile Cards",
