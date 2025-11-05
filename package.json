@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "shopify theme dev -s ivannateststore",
     "build": "vite build",
-    "watch": "vite build --watch"
+    "watch": "npx @tailwindcss/cli -i ./input.tailwind.css -o ./assets/tailwind.css --watch"
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.16",
