@@ -19,20 +19,24 @@
 <script src="{{ 'banner-product.js' | asset_url }}" defer="defer"></script>
 
 {% capture price %}
-  <div class="tw:flex tw:items-center tw:gap-3 tw:py-2 tw:text-base tw:text-gray-500" data-price-container>
+  <div class="tw:flex tw:items-center tw:gap-3 tw:py-2 tw:text-base tw:text-gray" data-price-container>
     {%- if compare_at_price > price -%}
       <span class="tw:line-through tw:font-light {% unless available %}tw:opacity-60{% endunless %}">{{ compare_at_price | money_without_trailing_zeros }}</span>
     {%- endif -%}
      <span class="tw:font-medium {% unless available %}tw:opacity-60{% endunless %}" data-target="{{ target.id }}">{{ price |  money_with_currency }}</span>
      {%- if available == false -%}
-      <span class="tw-badge tw-badge--soldout">{{ 'products.product.sold_out' | t }}</span>
+      <span class="tw-badge tw:bg-gray">{{ 'products.product.sold_out' | t }}</span>
     {%- elsif compare_at_price > price -%}
-      <span class="tw-badge tw-badge--sale">{{ 'products.product.on_sale' | t }}</span>
+      <span class="tw-badge tw:bg-red-500">{{ 'products.product.on_sale' | t }}</span>
     {%- endif -%}
   </div>            
 {% endcapture %}
 
-<section class="section__product-banner tw:pt-11 tw:pb-9">
+<section
+  class="section__product-banner tw:pt-11 tw:pb-9"
+  data-selected-variant-id="{{ target.id }}"
+  data-product-handle="{{ product.handle }}"
+>
   <div class="page-width">
     <div class="product-card tw:flex tw:flex-col tw:md:flex-row tw:gap-10">
       <div
@@ -114,7 +118,7 @@
           {% endif %}
         </div>
       </div>
-      <div class="product-info tw:md:flex-1">
+      <div class="tw:md:flex-1">
         <div>
           {% if product.title != blank %}
             <h2 class="tw:text-2xl! tw:md:text-3xl tw:font-normal!">{{ product.title | escape }}</h2>
@@ -124,16 +128,22 @@
           {% endif %}
           <div data-inventory-quantity>
             {%- unless target.available == false -%}
-              <span class="tw:font-semibold">
-                {{ 'products.product.inventory_in_stock_show_count' | t: quantity: target.inventory_quantity }}
-              </span>
+              {% if target.inventory_management == 'shopify' and target.inventory_policy != 'continue' %}
+                <span class="tw:font-semibold">
+                  {{ 'products.product.inventory_in_stock_show_count' | t: quantity: target.inventory_quantity }}
+                </span>
+              {%- else -%}
+                <span class="tw:font-semibold">
+                  {{ 'products.product.inventory_in_stock' | t }}
+                </span>
+              {%- endif -%}
             {%- else -%}
               <span class="tw:text-red-300">{{ 'products.product.inventory_out_of_stock' | t }}</span>
             {%- endunless -%}
           </div>
         </div>
         {% if product.variants.size > 1 %}
-          <div class="product-variants tw:my-6">
+          <div class="tw:my-6">
             {% for option in product.options_with_values %}
               {% assign option_name = option.name | downcase %}
 
@@ -147,25 +157,38 @@
                     -}}
                     :
                   </p>
-                  <div class=" option option--color">
+                  <div
+                    class="tw-options-list"
+                  >
                     {%- for value in option.values limit: 3 -%}
-                      <button
-                        class="color-button option-btn {% if option.selected_value == value %} active{% endif %}"
-                        data-color-button
-                        data-variant-id="{{ value.variant.id }}"
-                        data-product-handle="{{ product.handle }}"
-                        data-value="{{ value | downcase }}"
+                      {% assign variant = value.variant %}
+                      <input
+                        type="radio"
+                        id="option-{{ option.position }}-{{ forloop.index }}"
+                        name="option-{{ option.position }}"
+                        value="{{ value | downcase }}"
+                        class="tw:sr-only"
+                        data-color-input
+                        data-variant-id="{{ variant.id }}"
                       >
-                        {% if value.variant.image %}
+                      <label
+                        for="option-{{ option.position }}-{{ forloop.index }}"
+                        class="tw-option-label tw-color-swatch {% if option.selected_value == value %} active{% endif %} tw:inline-block tw:cursor-pointer"
+                      >
+                        {% if variant.image %}
                           {{
-                            value.variant.image
+                            variant.image
                             | image_url: width: 512, height: 512
-                            | image_tag: width: 88, height: 88, alt: value.variant.image.alt
+                            | image_tag:
+                              width: 88,
+                              height: 88,
+                              alt: variant.image.alt,
+                              class: 'tw:rounded-md tw:object-cover'
                           }}
                         {% else %}
-                          {{ 'image' | placeholder_svg_tag: 'placeholder-svg-class' }}
+                          {{ 'image' | placeholder_svg_tag: 'tw:rounded-md tw:w-[88px] tw:h-[88px]' }}
                         {% endif %}
-                      </button>
+                      </label>
                     {%- endfor -%}
                   </div>
                 {%- when 'size' -%}
@@ -177,16 +200,23 @@
                     -}}
                     :
                   </p>
-                  <div class="option option--size">
+                  <div class="tw-options-list option--size">
                     {%- for value in option.values -%}
-                      <button
-                        class="size-button {% if option.selected_value == value %}active{% endif %}"
-                        data-size-button
-                        data-variant-id="{{ value.variant.id }}"
-                        data-value="{{ value | downcase }}"
+                      <input
+                        type="radio"
+                        id="option-{{ option.position }}-{{ forloop.index }}"
+                        name="option-{{ option.position }}"
+                        value="{{ value | downcase }}"
+                        class="tw:sr-only"
+                        data-size-input
+                        data-variant-id="{{ variant.id }}"
+                      >
+                      <label
+                        for="option-{{ option.position }}-{{ forloop.index }}"
+                        class="tw-option-label tw-size-button {% if option.selected_value == value %} active{% endif %} tw:inline-block tw:cursor-pointer"
                       >
                         {{ value }}
-                      </button>
+                      </label>
                     {%- endfor -%}
                   </div>
                 {%- else -%}
@@ -198,10 +228,10 @@
                     -}}
                     :
                   </p>
-                  <div class="option option--generic">
+                  <div class="tw-options-list option--generic">
                     {%- for value in option.values -%}
                       <button
-                        class="generic-button {% if option.selected_value == value %} active{% endif %}"
+                        class="tw-generic-btn tw-option-btn {% if option.selected_value == value %} active{% endif %}"
                         data-generic-button
                         data-variant-id="{{ value.variant.id }}"
                         data-value="{{ value | downcase }}"
@@ -215,11 +245,11 @@
           </div>
         {% endif %}
         {% comment %} TO-DO: Implement product form {% endcomment %}
-        <button class="tw-btn" data-add-to-cart>
+        <button class="tw:btn tw:border-black tw:bg-black tw:text-white" data-add-to-cart>
           {{ 'products.product.add_to_cart' | t }}
         </button>
         {% if product.description != blank %}
-          <div class="tw:mt-6 tw:text-grey-700 tw:text-sm">{{ product.description }}</div>
+          <div class="tw:mt-6 tw:text-gray tw:text-sm">{{ product.description }}</div>
         {% endif %}
       </div>
     </div>

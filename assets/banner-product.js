@@ -33,19 +33,22 @@ function initProductGallery() {
 document.addEventListener("DOMContentLoaded", initProductGallery);
 
 document.addEventListener("DOMContentLoaded", () => {
-  const colorButtons = currentSection.querySelectorAll("[data-color-button]");
+  const colorInputs = currentSection.querySelectorAll("[data-color-input]");
 
   const addToCartButton = currentSection.querySelector("[data-add-to-cart]");
 
   // Handle color selection and variant update
-  colorButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const variantId = button.dataset.variantId;
-      const productHandle = button.dataset.productHandle;
+  colorInputs.forEach((input) => {
+    input.addEventListener("change", () => {
+      const variantId = input.dataset.variantId;
+      const productHandle = currentSection.dataset.productHandle;
+      const inputLabel = input.nextElementSibling;
 
       // Handle color selection
-      colorButtons.forEach((btn) => btn.classList.remove("active"));
-      button.classList.add("active");
+      currentSection
+        .querySelectorAll(".tw-color-swatch")
+        .forEach((item) => item.classList.remove("active"));
+      inputLabel.classList.add("active");
 
       // Update variant information with Section Rendering API
       const url = `/products/${productHandle}?variant=${variantId}&sections=banner-product`;
