@@ -19,15 +19,15 @@
 <script src="{{ 'banner-product.js' | asset_url }}" defer="defer"></script>
 
 {% capture price %}
-  <div class="price-container">
+  <div class="flex items-center gap-3 py-2" data-price-container>
     {%- if compare_at_price > price -%}
-      <span class="price price--compare {% unless available %}price--muted{% endunless %}">{{ compare_at_price | money_without_trailing_zeros }}</span>
+      <span class="line-through text-3xl font-light {% unless available %}opacity-60{% endunless %}">{{ compare_at_price | money_without_trailing_zeros }}</span>
     {%- endif -%}
-     <span class="price {% unless available %}price--muted{% endunless %}" data-target="{{ target.id }}">{{ price |  money_with_currency }}</span>
+     <span class="text-3xl font-semibold {% unless available %}opacity-60{% endunless %}" data-target="{{ target.id }}">{{ price |  money_with_currency }}</span>
      {%- if available == false -%}
-      <span class="badge badge--soldout">{{ 'products.product.sold_out' | t }}</span>
+      <span class="tw-badge tw-badge--soldout">{{ 'products.product.sold_out' | t }}</span>
     {%- elsif compare_at_price > price -%}
-      <span class="badge badge--sale">{{ 'products.product.on_sale' | t }}</span>
+      <span class="tw-badge tw-badge--sale">{{ 'products.product.on_sale' | t }}</span>
     {%- endif -%}
   </div>            
 {% endcapture %}
@@ -35,8 +35,8 @@
 <section class="section__product-banner tw">
   <div class="page-width pt-14 pb-5">
     <div class="product-card flex flex-col md:flex-row gap-10">
-      <div class="product-images flex flex-col xl:flex-row-reverse gap-6 shrink-0 md:flex-1">
-        <div class="main-image relative">
+      <div class="product-images flex flex-col xl:flex-row-reverse gap-6 shrink-0 md:flex-1" data-product-images>
+        <div class="relative" data-main-image>
           <div class="absolute top-4 left-4 flex items-center gap-2 bg-white bg-opacity-90 px-3 py-1 rounded-full shadow-md">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M10 13.0721L7.11574 14.6666L7.66671 11.2895L5.33337 8.89805L8.55789 8.40571L10 5.33325L11.4422 8.40571L14.6667 8.89805L12.3334 11.2895L12.8843 14.6666L10 13.0721Z" fill="#111111" stroke="#111111" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
@@ -68,13 +68,14 @@
           {% for image in product.images %}
             {% assign image_url = image | image_url: width: 536 | downcase %}
             {% if image_url contains selected_color %}
-              <div class="product-gallery__item relative overflow-hidden rounded-lg">
+              <div class="product-gallery__item relative overflow-hidden rounded-lg" data-gallery-item>
                 {% comment %} {{ image | image_url: width: 536 | image_tag: width: 88, height: 88, alt: image.alt }} {% endcomment %}
                 <img
                   src="{{ image | image_url: width: 88, height: 88 }}"
                   alt="{{ image.alt  | default: product.title | escape }}"
                   width="88"
                   height="88"
+                  data-gallery-thumb
                   class="gallery-thumb"
                   data-large="{{ image | image_url: width: 536 }}"
                   data-srcset="
@@ -90,13 +91,14 @@
             {% endif %}
           {% endfor %}
           {% if found_image == false and product.images.size > 0 %}
-            <div class="product-gallery__item">
+            <div class="product-gallery__item relative overflow-hidden rounded-lg" data-gallery-item>
               {% comment %} {{ product.images[0] | image_url: width: 536 | image_tag: width: 88, height: 88, alt: product.images[0].alt }} {% endcomment %}
               <img
                 src="{{ product.images[0] | image_url: width: 88, height: 88 }}"
                 alt="{{ product.images[0].alt  | default: product.title | escape }}"
                 width="88"
                 height="88"
+                data-gallery-thumb
                 class="gallery-thumb"
                 data-large="{{ product.images[0] | image_url: width: 536 }}"
                 data-srcset="
@@ -114,18 +116,18 @@
       <div class="product-info md:flex-1">
         <div>
           {% if product.title != blank %}
-            <h2 class="product-title">{{ product.title | escape }}</h2>
+            <h2 class="">{{ product.title | escape }}</h2>
           {% endif %}
           {% if price != blank %}
             {{ price }}
           {% endif %}
-          <div class="product--inventory_quantity">
+          <div data-inventory-quantity>
             {%- unless target.available == false -%}
-              <span class="text-secondary text-medium">
+              <span class="font-semibold">
                 {{ 'products.product.inventory_in_stock_show_count' | t: quantity: target.inventory_quantity }}
               </span>
             {%- else -%}
-              <span class="text--alert text-medium">{{ 'products.product.inventory_out_of_stock' | t }}</span>
+              <span class="text-red-300">{{ 'products.product.inventory_out_of_stock' | t }}</span>
             {%- endunless -%}
           </div>
         </div>
@@ -147,7 +149,8 @@
                   <div class=" option option--color">
                     {%- for value in option.values limit: 3 -%}
                       <button
-                        class="color-button {% if option.selected_value == value %} active{% endif %}"
+                        class="color-button option-btn {% if option.selected_value == value %} active{% endif %}"
+                        data-color-button
                         data-variant-id="{{ value.variant.id }}"
                         data-product-handle="{{ product.handle }}"
                         data-value="{{ value | downcase }}"
@@ -177,6 +180,7 @@
                     {%- for value in option.values -%}
                       <button
                         class="size-button {% if option.selected_value == value %}active{% endif %}"
+                        data-size-button
                         data-variant-id="{{ value.variant.id }}"
                         data-value="{{ value | downcase }}"
                       >
@@ -197,6 +201,7 @@
                     {%- for value in option.values -%}
                       <button
                         class="generic-button {% if option.selected_value == value %} active{% endif %}"
+                        data-generic-button
                         data-variant-id="{{ value.variant.id }}"
                         data-value="{{ value | downcase }}"
                       >
@@ -209,11 +214,11 @@
           </div>
         {% endif %}
         {% comment %} TO-DO: Implement product form {% endcomment %}
-        <button class="button button--full-width button--primary add-to-cart">
+        <button class="button button--full-width button--primary" data-add-to-cart>
           {{ 'products.product.add_to_cart' | t }}
         </button>
         {% if product.description != blank %}
-          <p class="product-description text-secondary text-medium">{{ product.description }}</p>
+          <div class="py-5 text-gray-700 text-xl">{{ product.description }}</div>
         {% endif %}
       </div>
     </div>

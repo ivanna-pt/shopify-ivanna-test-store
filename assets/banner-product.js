@@ -2,8 +2,8 @@ const currentSection = document.querySelector(".section__product-banner");
 
 // Handle product image gallery
 function initProductGallery() {
-  const mainImage = currentSection.querySelector(".main-image img");
-  const thumbs = currentSection.querySelectorAll(".gallery-thumb");
+  const mainImage = currentSection.querySelector("[data-main-image] img");
+  const thumbs = currentSection.querySelectorAll("[data-gallery-thumb]");
 
   if (!mainImage || !thumbs.length) return;
 
@@ -11,7 +11,7 @@ function initProductGallery() {
     thumb.addEventListener("click", (e) => {
       const mainImageUrl = thumb.dataset.large;
       const mainImageAlt = thumb.alt;
-      const thumbWrapper = thumb.closest(".product-gallery__item");
+      const thumbWrapper = thumb.closest("[data-gallery-item]");
 
       if (thumb.dataset.srcset) {
         mainImage.srcset = thumb.dataset.srcset;
@@ -23,7 +23,7 @@ function initProductGallery() {
 
       // Update active thumbnail styling
       currentSection
-        .querySelectorAll(".product-gallery__item")
+        .querySelectorAll("[data-gallery-item]")
         .forEach((item) => item.classList.remove("active"));
       thumbWrapper.classList.add("active");
     });
@@ -33,9 +33,9 @@ function initProductGallery() {
 document.addEventListener("DOMContentLoaded", initProductGallery);
 
 document.addEventListener("DOMContentLoaded", () => {
-  const colorButtons = currentSection.querySelectorAll(".color-button");
+  const colorButtons = currentSection.querySelectorAll("[data-color-button]");
 
-  const addToCartButton = currentSection.querySelector(".add-to-cart");
+  const addToCartButton = currentSection.querySelector("[data-add-to-cart]");
 
   // Handle color selection and variant update
   colorButtons.forEach((button) => {
@@ -54,15 +54,12 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((data) => {
           const tempDiv = document.createElement("div");
           tempDiv.innerHTML = data["banner-product"];
-          currentSection.querySelector(".price-container").innerHTML =
-            tempDiv.querySelector(".price-container").innerHTML;
-          currentSection.querySelector(
-            ".product--inventory_quantity"
-          ).innerHTML = tempDiv.querySelector(
-            ".product--inventory_quantity"
-          ).innerHTML;
-          currentSection.querySelector(".product-images").innerHTML =
-            tempDiv.querySelector(".product-images").innerHTML;
+          currentSection.querySelector("[data-price-container]").innerHTML =
+            tempDiv.querySelector("[data-price-container]").innerHTML;
+          currentSection.querySelector("[data-inventory-quantity]").innerHTML =
+            tempDiv.querySelector("[data-inventory-quantity]").innerHTML;
+          currentSection.querySelector("[data-product-images]").innerHTML =
+            tempDiv.querySelector("[data-product-images]").innerHTML;
           initProductGallery();
         });
     });

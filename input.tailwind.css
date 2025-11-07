@@ -1,1 +1,28 @@
 @import "tailwindcss";
+
+@layer components {
+  .tw-badge {
+    @apply inline-block px-2 py-1 rounded-lg text-white text-base font-semibold;
+  }
+  .tw-badge--sale {
+    @apply bg-[#dc143c];
+  }
+  .tw-badge--soldout {
+    @apply bg-gray-500;
+  }
+  .option {
+    @apply flex gap-2 items-center mb-5;
+  }
+  .option-btn {
+    @apply rounded-lg border border-transparent overflow-hidden text-black hover:border-black focus:border-black cursor-pointer transition;
+  }
+  .color-button {
+    @apply w-[88px] h-[88px] p-0 bg-gray-100;
+  }
+  .option-btn.active {
+    @apply border-black;
+  }
+  .color-button img {
+    @apply w-full h-auto object-cover aspect-square;
+  }
+}
