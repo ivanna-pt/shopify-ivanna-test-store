@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import "tailwindcss" prefix(tw);
 
 @theme {
   --breakpoint-*: initial;
@@ -35,30 +35,30 @@
 
 @layer components {
   .tw-badge {
-    @apply inline-block px-2 py-1 rounded-sm text-white text-xs font-semibold;
+    @apply tw:inline-block tw:px-2 tw:py-1 tw:rounded-sm tw:text-white tw:text-xs tw:font-semibold;
   }
   .tw-badge--sale {
-    @apply bg-[#dc143c];
+    @apply tw:bg-[#dc143c];
   }
   .tw-badge--soldout {
-    @apply bg-gray-500;
+    @apply tw:bg-gray-500;
   }
   .option {
-    @apply flex gap-2 items-center mb-5;
+    @apply tw:flex tw:gap-2 tw:items-center tw:mb-5;
   }
   .option-btn {
-    @apply rounded-sm border border-transparent overflow-hidden text-black hover:border-black focus:border-black cursor-pointer transition;
+    @apply tw:rounded-sm tw:border tw:border-transparent tw:overflow-hidden tw:text-black tw:hover:border-black tw:focus:border-black tw:cursor-pointer tw:transition;
   }
   .color-button {
-    @apply w-[88px] h-[88px] p-0 bg-gray-100;
+    @apply tw:w-22 tw:h-22 tw:p-0 tw:bg-gray-100;
   }
   .option-btn.active {
-    @apply border-black;
+    @apply tw:border-black;
   }
   .color-button img {
-    @apply w-full h-auto object-cover aspect-square;
+    @apply tw:w-full tw:h-auto tw:object-cover tw:aspect-square;
   }
   .tw-btn {
-    @apply px-4 py-2 rounded-lg border border-black bg-black text-sm text-white w-full min-h-11 hover:shadow-sm/90 transition;
+    @apply tw:px-4 tw:py-2 tw:rounded-lg tw:border tw:border-black tw:bg-black tw:text-sm tw:text-white tw:w-full tw:min-h-11 tw:hover:shadow-sm/90 tw:transition;
   }
 }

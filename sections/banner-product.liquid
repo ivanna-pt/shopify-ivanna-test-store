@@ -19,11 +19,11 @@
 <script src="{{ 'banner-product.js' | asset_url }}" defer="defer"></script>
 
 {% capture price %}
-  <div class="flex items-center gap-3 py-2 text-base text-gray-500" data-price-container>
+  <div class="tw:flex tw:items-center tw:gap-3 tw:py-2 tw:text-base tw:text-gray-500" data-price-container>
     {%- if compare_at_price > price -%}
-      <span class="line-through font-light {% unless available %}opacity-60{% endunless %}">{{ compare_at_price | money_without_trailing_zeros }}</span>
+      <span class="tw:line-through tw:font-light {% unless available %}tw:opacity-60{% endunless %}">{{ compare_at_price | money_without_trailing_zeros }}</span>
     {%- endif -%}
-     <span class=" font-medium {% unless available %}opacity-60{% endunless %}" data-target="{{ target.id }}">{{ price |  money_with_currency }}</span>
+     <span class="tw:font-medium {% unless available %}tw:opacity-60{% endunless %}" data-target="{{ target.id }}">{{ price |  money_with_currency }}</span>
      {%- if available == false -%}
       <span class="tw-badge tw-badge--soldout">{{ 'products.product.sold_out' | t }}</span>
     {%- elsif compare_at_price > price -%}
@@ -32,18 +32,21 @@
   </div>            
 {% endcapture %}
 
-<section class="section__product-banner pt-11 pb-9">
+<section class="section__product-banner tw:pt-11 tw:pb-9">
   <div class="page-width">
-    <div class="product-card flex flex-col md:flex-row gap-10">
-      <div class="product-images flex flex-col xl:flex-row-reverse gap-6 shrink-0 md:flex-1" data-product-images>
-        <div class="relative" data-main-image>
-          <div class="absolute top-4 left-4 flex items-center gap-2 bg-white bg-opacity-90 p-2 rounded-sm shadow-md">
+    <div class="product-card tw:flex tw:flex-col tw:md:flex-row tw:gap-10">
+      <div
+        class="product-images tw:flex tw:flex-col xl:flex-row-reverse tw:gap-6 tw:shrink-0 md:flex-1"
+        data-product-images
+      >
+        <div class="tw:relative" data-main-image>
+          <div class="tw:absolute tw:top-4 tw:left-4 tw:flex tw:items-center tw:gap-2 tw:bg-white tw:bg-opacity-90 tw:p-2 tw:rounded-sm tw:shadow-md">
             {{ 'star-icon.svg' | inline_asset_content }}
-            <span class="text-sm capitalize">highly rated</span>
+            <span class="tw:text-sm tw:capitalize">highly rated</span>
           </div>
           {%- comment -%} Display variant image if it exists, otherwise display product featured image, otherwise display placeholder image {%- endcomment -%}
           {% assign variant_image = target.image %}
-          {% assign main_image_classes = 'aspect-square object-cover rounded-lg' %}
+          {% assign main_image_classes = 'tw:aspect-square tw:object-cover tw:rounded-lg' %}
           {% if variant_image %}
             {{ variant_image | image_url: width: 536 | image_tag: alt: featured_image_alt, class: main_image_classes }}
           {% elsif product.featured_image %}
@@ -56,7 +59,7 @@
             {{ 'image' | placeholder_svg_tag: 'placeholder-svg-class' }}
           {% endif %}
         </div>
-        <div class="product-gallery flex gap-4 xl:flex-col">
+        <div class="product-gallery tw:flex tw:gap-4 tw:xl:flex-col">
           {% comment %}
             Display images that match the selected color option
             If no images match, display the first image
@@ -66,7 +69,7 @@
           {% for image in product.images %}
             {% assign image_url = image | image_url: width: 536 | downcase %}
             {% if image_url contains selected_color %}
-              <div class="product-gallery__item relative overflow-hidden rounded-lg" data-gallery-item>
+              <div class="product-gallery__item tw:relative tw:overflow-hidden tw:rounded-lg" data-gallery-item>
                 {% comment %} {{ image | image_url: width: 536 | image_tag: width: 88, height: 88, alt: image.alt }} {% endcomment %}
                 <img
                   src="{{ image | image_url: width: 88, height: 88 }}"
@@ -89,7 +92,7 @@
             {% endif %}
           {% endfor %}
           {% if found_image == false and product.images.size > 0 %}
-            <div class="product-gallery__item relative overflow-hidden rounded-lg" data-gallery-item>
+            <div class="product-gallery__item tw:relative tw:overflow-hidden tw:rounded-lg" data-gallery-item>
               {% comment %} {{ product.images[0] | image_url: width: 536 | image_tag: width: 88, height: 88, alt: product.images[0].alt }} {% endcomment %}
               <img
                 src="{{ product.images[0] | image_url: width: 88, height: 88 }}"
@@ -111,32 +114,32 @@
           {% endif %}
         </div>
       </div>
-      <div class="product-info md:flex-1">
+      <div class="product-info tw:md:flex-1">
         <div>
           {% if product.title != blank %}
-            <h2 class="text-2xl! md:text-3xl font-normal!">{{ product.title | escape }}</h2>
+            <h2 class="tw:text-2xl! tw:md:text-3xl tw:font-normal!">{{ product.title | escape }}</h2>
           {% endif %}
           {% if price != blank %}
             {{ price }}
           {% endif %}
           <div data-inventory-quantity>
             {%- unless target.available == false -%}
-              <span class="font-semibold">
+              <span class="tw:font-semibold">
                 {{ 'products.product.inventory_in_stock_show_count' | t: quantity: target.inventory_quantity }}
               </span>
             {%- else -%}
-              <span class="text-red-300">{{ 'products.product.inventory_out_of_stock' | t }}</span>
+              <span class="tw:text-red-300">{{ 'products.product.inventory_out_of_stock' | t }}</span>
             {%- endunless -%}
           </div>
         </div>
         {% if product.variants.size > 1 %}
-          <div class="product-variants my-6">
+          <div class="product-variants tw:my-6">
             {% for option in product.options_with_values %}
               {% assign option_name = option.name | downcase %}
 
               {% case option_name %}
                 {%- when 'color', 'colour' -%}
-                  <p class="text-sm mb-3">
+                  <p class="tw:text-sm tw:mb-3">
                     {{
                       'products.product.banner-product.select_option'
                       | t: option_name: option.name
@@ -166,7 +169,7 @@
                     {%- endfor -%}
                   </div>
                 {%- when 'size' -%}
-                  <p class="text-sm mb-3">
+                  <p class="tw:text-sm tw:mb-3">
                     {{
                       'products.product.banner-product.select_option'
                       | t: option_name: option.name
@@ -187,7 +190,7 @@
                     {%- endfor -%}
                   </div>
                 {%- else -%}
-                  <p class="text-sm mb-3">
+                  <p class="tw:text-sm tw:mb-3">
                     {{
                       'products.product.banner-product.select_option'
                       | t: option_name: option.name
@@ -216,7 +219,7 @@
           {{ 'products.product.add_to_cart' | t }}
         </button>
         {% if product.description != blank %}
-          <div class="mt-6 text-grey-700 text-sm">{{ product.description }}</div>
+          <div class="tw:mt-6 tw:text-grey-700 tw:text-sm">{{ product.description }}</div>
         {% endif %}
       </div>
     </div>
