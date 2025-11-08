@@ -40,7 +40,7 @@
   <div class="page-width">
     <div class="tw:flex tw:flex-col tw:md:flex-row tw:gap-10">
       <div
-        class="tw:flex tw:flex-col xl:flex-row-reverse tw:gap-6 tw:shrink-0 md:flex-1"
+        class="tw:flex tw:flex-col xl:flex-row-reverse tw:gap-6 tw:shrink-0 tw:md:flex-1"
         data-product-images
       >
         <div class="tw:relative" data-main-image>
@@ -198,7 +198,7 @@
                     -}}
                     :
                   </p>
-                  <div class="tw-options-list tw:grid tw:grid-cols-2 tw:md:grid-cols-3">
+                  <div class="tw-options-list tw:grid tw:grid-cols-2 tw:lg:grid-cols-3">
                     {%- for value in option.values -%}
                       <input
                         type="radio"
@@ -229,7 +229,7 @@
                   {% capture data_option_input %}
                     data-{{ option_name | downcase }}-input
                   {% endcapture %}
-                  <div class="tw-options-list tw:grid tw:grid-cols-2 tw:md:grid-cols-3">
+                  <div class="tw-options-list tw:grid tw:grid-cols-2 tw:lg:grid-cols-3">
                     {%- for value in option.values -%}
                       <input
                         type="radio"
