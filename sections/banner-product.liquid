@@ -38,9 +38,9 @@
   data-product-handle="{{ product.handle }}"
 >
   <div class="page-width">
-    <div class="product-card tw:flex tw:flex-col tw:md:flex-row tw:gap-10">
+    <div class="tw:flex tw:flex-col tw:md:flex-row tw:gap-10">
       <div
-        class="product-images tw:flex tw:flex-col xl:flex-row-reverse tw:gap-6 tw:shrink-0 md:flex-1"
+        class="tw:flex tw:flex-col xl:flex-row-reverse tw:gap-6 tw:shrink-0 md:flex-1"
         data-product-images
       >
         <div class="tw:relative" data-main-image>
@@ -63,7 +63,7 @@
             {{ 'image' | placeholder_svg_tag: 'placeholder-svg-class' }}
           {% endif %}
         </div>
-        <div class="product-gallery tw:flex tw:gap-4 tw:xl:flex-col">
+        <div class="tw:flex tw:gap-4 tw:xl:flex-col">
           {% comment %}
             Display images that match the selected color option
             If no images match, display the first image
@@ -73,7 +73,7 @@
           {% for image in product.images %}
             {% assign image_url = image | image_url: width: 536 | downcase %}
             {% if image_url contains selected_color %}
-              <div class="product-gallery__item tw:relative tw:overflow-hidden tw:rounded-lg" data-gallery-item>
+              <div class="tw:relative tw:overflow-hidden tw:rounded-lg" data-gallery-item>
                 {% comment %} {{ image | image_url: width: 536 | image_tag: width: 88, height: 88, alt: image.alt }} {% endcomment %}
                 <img
                   src="{{ image | image_url: width: 88, height: 88 }}"
@@ -81,7 +81,6 @@
                   width="88"
                   height="88"
                   data-gallery-thumb
-                  class="gallery-thumb"
                   data-large="{{ image | image_url: width: 536 }}"
                   data-srcset="
                     {{ image | image_url: width: 200 }} 200w,
@@ -96,15 +95,13 @@
             {% endif %}
           {% endfor %}
           {% if found_image == false and product.images.size > 0 %}
-            <div class="product-gallery__item tw:relative tw:overflow-hidden tw:rounded-lg" data-gallery-item>
-              {% comment %} {{ product.images[0] | image_url: width: 536 | image_tag: width: 88, height: 88, alt: product.images[0].alt }} {% endcomment %}
+            <div class="tw:relative tw:overflow-hidden tw:rounded-lg" data-gallery-item>
               <img
                 src="{{ product.images[0] | image_url: width: 88, height: 88 }}"
                 alt="{{ product.images[0].alt  | default: product.title | escape }}"
                 width="88"
                 height="88"
                 data-gallery-thumb
-                class="gallery-thumb"
                 data-large="{{ product.images[0] | image_url: width: 536 }}"
                 data-srcset="
                   {{ product.images[0] | image_url: width: 200 }} 200w,

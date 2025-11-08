@@ -233,9 +233,6 @@
   .tw\:h-22 {
     height: calc(var(--tw-spacing) * 22);
   }
-  .tw\:h-\[88px\] {
-    height: 88px;
-  }
   .tw\:btn {
     padding-inline: calc(var(--tw-spacing) * 4);
     padding-block: calc(var(--tw-spacing) * 2);
@@ -253,9 +250,6 @@
   }
   .tw\:w-22 {
     width: calc(var(--tw-spacing) * 22);
-  }
-  .tw\:w-\[88px\] {
-    width: 88px;
   }
   .tw\:shrink-0 {
     flex-shrink: 0;
@@ -401,7 +395,6 @@
     }
   }
 }
-@layer base;
 @layer components {
   .tw-badge {
     display: inline-block;

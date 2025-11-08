@@ -32,9 +32,6 @@
   --radius-4xl: 32px;
 }
 
-@layer base {
-}
-
 @layer components {
   .tw-badge {
     @apply tw:inline-block tw:px-2 tw:py-1 tw:rounded-sm tw:text-white tw:text-xs tw:font-semibold;
