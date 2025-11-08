@@ -1,0 +1,16 @@
+{
+  "type": "module",
+  "scripts": {
+    "dev": "shopify theme dev -s ivannateststore",
+    "build": "vite build",
+    "watch": "vite build --watch"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.16",
+    "@tailwindcss/vite": "^4.1.16",
+    "tailwindcss": "^4.1.16"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.16"
+  }
+}
