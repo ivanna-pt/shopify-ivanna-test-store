@@ -127,6 +127,7 @@
             {{ price }}
           {% endif %}
           <div data-inventory-quantity>
+            {{ product.available }}
             {%- unless target.available == false -%}
               {% if target.inventory_management == 'shopify' and target.inventory_policy != 'continue' %}
                 <span class="tw:font-semibold">
@@ -158,7 +159,7 @@
                     :
                   </p>
                   <div
-                    class="tw-options-list"
+                    class="tw-options-list tw:flex tw:align-center"
                   >
                     {%- for value in option.values limit: 3 -%}
                       {% assign variant = value.variant %}
@@ -186,7 +187,7 @@
                               class: 'tw:rounded-md tw:object-cover'
                           }}
                         {% else %}
-                          {{ 'image' | placeholder_svg_tag: 'tw:rounded-md tw:w-[88px] tw:h-[88px]' }}
+                          {{ 'image' | placeholder_svg_tag: 'tw:rounded-md tw:w-22 tw:h-22' }}
                         {% endif %}
                       </label>
                     {%- endfor -%}
@@ -200,7 +201,7 @@
                     -}}
                     :
                   </p>
-                  <div class="tw-options-list option--size">
+                  <div class="tw-options-list tw:grid tw:grid-cols-2 tw:md:grid-cols-3">
                     {%- for value in option.values -%}
                       <input
                         type="radio"
@@ -213,7 +214,7 @@
                       >
                       <label
                         for="option-{{ option.position }}-{{ forloop.index }}"
-                        class="tw-option-label tw-size-button {% if option.selected_value == value %} active{% endif %} tw:inline-block tw:cursor-pointer"
+                        class="tw-option-label tw-size-label {% if option.selected_value == value %} active{% endif %} tw:inline-block tw:cursor-pointer"
                       >
                         {{ value }}
                       </label>
@@ -228,16 +229,26 @@
                     -}}
                     :
                   </p>
-                  <div class="tw-options-list option--generic">
+                  {% capture data_option_input %}
+                    data-{{ option_name | downcase }}-input
+                  {% endcapture %}
+                  <div class="tw-options-list tw:grid tw:grid-cols-2 tw:md:grid-cols-3">
                     {%- for value in option.values -%}
-                      <button
-                        class="tw-generic-btn tw-option-btn {% if option.selected_value == value %} active{% endif %}"
-                        data-generic-button
-                        data-variant-id="{{ value.variant.id }}"
-                        data-value="{{ value | downcase }}"
+                      <input
+                        type="radio"
+                        id="option-{{ option.position }}-{{ forloop.index }}"
+                        name="option-{{ option.position }}"
+                        value="{{ value | downcase }}"
+                        class="tw:sr-only"
+                        {{ data_option_input | strip }}
+                        data-variant-id="{{ variant.id }}"
+                      >
+                      <label
+                        for="option-{{ option.position }}-{{ forloop.index }}"
+                        class="tw-option-label tw-generic-button {% if option.selected_value == value %} active{% endif %} tw:inline-block tw:cursor-pointer"
                       >
                         {{ value }}
-                      </button>
+                      </label>
                     {%- endfor -%}
                   </div>
               {% endcase %}

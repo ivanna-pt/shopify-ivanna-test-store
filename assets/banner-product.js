@@ -1,9 +1,9 @@
-const currentSection = document.querySelector(".section__product-banner");
+const currentSections = document.querySelectorAll(".section__product-banner");
 
 // Handle product image gallery
-function initProductGallery() {
-  const mainImage = currentSection.querySelector("[data-main-image] img");
-  const thumbs = currentSection.querySelectorAll("[data-gallery-thumb]");
+function initProductGallery(section) {
+  const mainImage = section.querySelector("[data-main-image] img");
+  const thumbs = section.querySelectorAll("[data-gallery-thumb]");
 
   if (!mainImage || !thumbs.length) return;
 
@@ -22,7 +22,7 @@ function initProductGallery() {
       mainImage.alt = mainImageAlt;
 
       // Update active thumbnail styling
-      currentSection
+      section
         .querySelectorAll("[data-gallery-item]")
         .forEach((item) => item.classList.remove("active"));
       thumbWrapper.classList.add("active");
@@ -30,45 +30,46 @@ function initProductGallery() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", initProductGallery);
-
 document.addEventListener("DOMContentLoaded", () => {
-  const colorInputs = currentSection.querySelectorAll("[data-color-input]");
+  currentSections.forEach((section) => {
+    initProductGallery(section);
+    handleOptionSelection(section, "[data-color-input]", ".tw-color-swatch");
+    handleOptionSelection(section, "[data-size-input]", ".tw-size-label");
+  });
+});
 
-  const addToCartButton = currentSection.querySelector("[data-add-to-cart]");
+function handleOptionSelection(section, optionSelector, labelSelector) {
+  const optionInputs = section.querySelectorAll(optionSelector);
+  const productHandle = section.dataset.productHandle;
 
-  // Handle color selection and variant update
-  colorInputs.forEach((input) => {
+  optionInputs.forEach((input) => {
     input.addEventListener("change", () => {
       const variantId = input.dataset.variantId;
-      const productHandle = currentSection.dataset.productHandle;
       const inputLabel = input.nextElementSibling;
 
       // Handle color selection
-      currentSection
-        .querySelectorAll(".tw-color-swatch")
+      section
+        .querySelectorAll(labelSelector)
         .forEach((item) => item.classList.remove("active"));
       inputLabel.classList.add("active");
 
-      // Update variant information with Section Rendering API
-      const url = `/products/${productHandle}?variant=${variantId}&sections=banner-product`;
-      fetch(url)
-        .then((response) => response.json())
-        .then((data) => {
-          const tempDiv = document.createElement("div");
-          tempDiv.innerHTML = data["banner-product"];
-          currentSection.querySelector("[data-price-container]").innerHTML =
-            tempDiv.querySelector("[data-price-container]").innerHTML;
-          currentSection.querySelector("[data-inventory-quantity]").innerHTML =
-            tempDiv.querySelector("[data-inventory-quantity]").innerHTML;
-          currentSection.querySelector("[data-product-images]").innerHTML =
-            tempDiv.querySelector("[data-product-images]").innerHTML;
-          initProductGallery();
-        });
+      // Update variant information when color is selected with Section Rendering API
+      if (input.getAttribute("data-color-input") !== null) {
+        const url = `/products/${productHandle}?variant=${variantId}&sections=banner-product`;
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = data["banner-product"];
+            section.querySelector("[data-price-container]").innerHTML =
+              tempDiv.querySelector("[data-price-container]").innerHTML;
+            section.querySelector("[data-inventory-quantity]").innerHTML =
+              tempDiv.querySelector("[data-inventory-quantity]").innerHTML;
+            section.querySelector("[data-product-images]").innerHTML =
+              tempDiv.querySelector("[data-product-images]").innerHTML;
+            initProductGallery(section);
+          });
+      }
     });
   });
-
-  addToCartButton.addEventListener("click", () => {
-    // Handle add to cart
-  });
-});
+}

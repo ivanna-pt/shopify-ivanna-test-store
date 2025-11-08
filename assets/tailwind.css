@@ -221,14 +221,17 @@
   .tw\:flex {
     display: flex;
   }
-  .tw\:hidden {
-    display: none;
+  .tw\:grid {
+    display: grid;
   }
   .tw\:inline-block {
     display: inline-block;
   }
   .tw\:aspect-square {
     aspect-ratio: 1 / 1;
+  }
+  .tw\:h-22 {
+    height: calc(var(--tw-spacing) * 22);
   }
   .tw\:h-\[88px\] {
     height: 88px;
@@ -248,6 +251,9 @@
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
     }
   }
+  .tw\:w-22 {
+    width: calc(var(--tw-spacing) * 22);
+  }
   .tw\:w-\[88px\] {
     width: 88px;
   }
@@ -256,6 +262,9 @@
   }
   .tw\:cursor-pointer {
     cursor: pointer;
+  }
+  .tw\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .tw\:flex-col {
     flex-direction: column;
@@ -375,6 +384,11 @@
       flex: 1;
     }
   }
+  .tw\:md\:grid-cols-3 {
+    @media (width >= 750px) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
   .tw\:md\:flex-row {
     @media (width >= 750px) {
       flex-direction: row;
@@ -410,17 +424,19 @@
   }
   .tw-options-list {
     margin-bottom: calc(var(--tw-spacing) * 5);
-    display: flex;
-    align-items: center;
     gap: calc(var(--tw-spacing) * 2);
+    text-align: center;
+    font-size: var(--tw-text-sm);
+    line-height: var(--tw-leading, var(--tw-text-sm--line-height));
   }
   .tw-option-label {
     cursor: pointer;
     overflow: hidden;
-    border-radius: var(--tw-radius-sm);
+    border-radius: var(--tw-radius-md);
     border-style: var(--tw-border-style);
     border-width: 1px;
-    border-color: transparent;
+    border-color: var(--tw-color-gray-light);
+    padding: calc(var(--tw-spacing) * 4);
     color: var(--tw-color-black);
     transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, content-visibility, overlay, pointer-events;
     transition-timing-function: var(--tw-ease, var(--tw-default-transition-timing-function));
