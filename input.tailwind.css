@@ -1,1 +1,74 @@
-@import "tailwindcss";
+@import "tailwindcss" prefix(tw);
+
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-md: 750px;
+  --breakpoint-lg: 990px;
+
+  --spacing: 4px;
+
+  --color-black: #121212;
+  --color-gray: #737373;
+  --color-gray-light: #ebebeb;
+
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 18px;
+  --text-xl: 20px;
+  --text-2xl: 24px;
+  --text-3xl: 30px;
+  --text-4xl: 36px;
+  --text-5xl: 48px;
+  --text-5xl--line-height: 1;
+
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-3xl: 24px;
+  --radius-4xl: 32px;
+}
+
+@layer components {
+  .tw-badge {
+    @apply tw:inline-block tw:px-2 tw:py-1 tw:rounded-sm tw:text-white tw:text-xs tw:font-semibold;
+  }
+  .product-gallery__item.active::before {
+    @apply tw:content-[''] tw:absolute tw:inset-0 tw:bg-black  tw:opacity-20;
+  }
+  .tw-options-list {
+    @apply tw:gap-2 tw:text-center tw:text-sm tw:mb-5;
+  }
+  .tw-option-label {
+    @apply tw:p-4 tw:rounded-md tw:border tw:border-gray-light tw:overflow-hidden tw:text-black tw:hover:border-black tw:focus:border-black tw:cursor-pointer tw:transition;
+  }
+  .tw-color-swatch {
+    @apply tw:w-22 tw:h-22 tw:p-0 tw:bg-gray-light;
+  }
+  .tw-option-label.active {
+    @apply tw:border-black;
+  }
+  .tw-color-swatch img {
+    @apply tw:w-full tw:h-auto tw:object-cover tw:aspect-square;
+  }
+}
+
+@utility btn {
+  padding-inline: calc(var(--tw-spacing) * 4);
+  padding-block: calc(var(--tw-spacing) * 2);
+  border-radius: var(--tw-radius-lg);
+  border-width: 1px;
+  font-size: var(--tw-text-sm);
+  line-height: var(--tw-leading, var(--tw-text-sm--line-height));
+  width: 100%;
+  min-height: calc(var(--tw-spacing) * 11);
+  cursor: pointer;
+  transition: box-shadow 0.2s ease-in-out;
+  &:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  }
+}

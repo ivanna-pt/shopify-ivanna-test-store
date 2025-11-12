@@ -1,9 +1,9 @@
-const currentSection = document.querySelector(".section__product-banner");
+const currentSections = document.querySelectorAll(".section__product-banner");
 
 // Handle product image gallery
-function initProductGallery() {
-  const mainImage = currentSection.querySelector(".main-image img");
-  const thumbs = currentSection.querySelectorAll(".gallery-thumb");
+function initProductGallery(section) {
+  const mainImage = section.querySelector("[data-main-image] img");
+  const thumbs = section.querySelectorAll("[data-gallery-thumb]");
 
   if (!mainImage || !thumbs.length) return;
 
@@ -11,7 +11,7 @@ function initProductGallery() {
     thumb.addEventListener("click", (e) => {
       const mainImageUrl = thumb.dataset.large;
       const mainImageAlt = thumb.alt;
-      const thumbWrapper = thumb.closest(".product-gallery__item");
+      const thumbWrapper = thumb.closest("[data-gallery-item]");
 
       if (thumb.dataset.srcset) {
         mainImage.srcset = thumb.dataset.srcset;
@@ -22,53 +22,54 @@ function initProductGallery() {
       mainImage.alt = mainImageAlt;
 
       // Update active thumbnail styling
-      currentSection
-        .querySelectorAll(".product-gallery__item")
+      section
+        .querySelectorAll("[data-gallery-item]")
         .forEach((item) => item.classList.remove("active"));
       thumbWrapper.classList.add("active");
     });
   });
 }
 
-document.addEventListener("DOMContentLoaded", initProductGallery);
-
 document.addEventListener("DOMContentLoaded", () => {
-  const colorButtons = currentSection.querySelectorAll(".color-button");
-
-  const addToCartButton = currentSection.querySelector(".add-to-cart");
-
-  // Handle color selection and variant update
-  colorButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const variantId = button.dataset.variantId;
-      const productHandle = button.dataset.productHandle;
-
-      // Handle color selection
-      colorButtons.forEach((btn) => btn.classList.remove("active"));
-      button.classList.add("active");
-
-      // Update variant information with Section Rendering API
-      const url = `/products/${productHandle}?variant=${variantId}&sections=banner-product`;
-      fetch(url)
-        .then((response) => response.json())
-        .then((data) => {
-          const tempDiv = document.createElement("div");
-          tempDiv.innerHTML = data["banner-product"];
-          currentSection.querySelector(".price-container").innerHTML =
-            tempDiv.querySelector(".price-container").innerHTML;
-          currentSection.querySelector(
-            ".product--inventory_quantity"
-          ).innerHTML = tempDiv.querySelector(
-            ".product--inventory_quantity"
-          ).innerHTML;
-          currentSection.querySelector(".product-images").innerHTML =
-            tempDiv.querySelector(".product-images").innerHTML;
-          initProductGallery();
-        });
-    });
-  });
-
-  addToCartButton.addEventListener("click", () => {
-    // Handle add to cart
+  currentSections.forEach((section) => {
+    initProductGallery(section);
+    handleOptionSelection(section, "[data-color-input]", ".tw-color-swatch");
+    handleOptionSelection(section, "[data-size-input]", ".tw-size-label");
   });
 });
+
+function handleOptionSelection(section, optionSelector, labelSelector) {
+  const optionInputs = section.querySelectorAll(optionSelector);
+  const productHandle = section.dataset.productHandle;
+
+  optionInputs.forEach((input) => {
+    input.addEventListener("change", () => {
+      const variantId = input.dataset.variantId;
+      const inputLabel = input.nextElementSibling;
+
+      // Handle color selection
+      section
+        .querySelectorAll(labelSelector)
+        .forEach((item) => item.classList.remove("active"));
+      inputLabel.classList.add("active");
+
+      // Update variant information when color is selected with Section Rendering API
+      if (input.getAttribute("data-color-input") !== null) {
+        const url = `/products/${productHandle}?variant=${variantId}&sections=banner-product`;
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = data["banner-product"];
+            section.querySelector("[data-price-container]").innerHTML =
+              tempDiv.querySelector("[data-price-container]").innerHTML;
+            section.querySelector("[data-inventory-quantity]").innerHTML =
+              tempDiv.querySelector("[data-inventory-quantity]").innerHTML;
+            section.querySelector("[data-product-images]").innerHTML =
+              tempDiv.querySelector("[data-product-images]").innerHTML;
+            initProductGallery(section);
+          });
+      }
+    });
+  });
+}
