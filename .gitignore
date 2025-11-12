@@ -1,3 +1,4 @@
 node_modules
 .ruby-version
 package-lock.json
+.vscode
