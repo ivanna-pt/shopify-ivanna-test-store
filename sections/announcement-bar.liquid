@@ -1,17 +1,27 @@
 {{ 'component-slideshow.css' | asset_url | stylesheet_tag }}
 {{ 'component-slider.css' | asset_url | stylesheet_tag }}
 
-{% comment %}
-  {% javascript %}
-    const start = performance.now();
+{% javascript %}
+  const start = performance.now();
 
-    window.addEventListener('load', () => {
-      const end = performance.now();
-      console.log(`[Liquid tag] JS file loaded in
+  window.addEventListener('load', () => {
+    const end = performance.now();
+    console.log(`[Liquid tag] JS file loaded in
             ${(end - start).toFixed(2)} ms`);
-    });
-  {% endjavascript %}
-{% endcomment %}
+  });
+
+  const t0 = performance.now();
+
+  // Code block to measure
+  for (let i = 0; i < 1000000; i++) {
+    // Perform some operation
+    Math.sqrt(i);
+  }
+
+  const t1 = performance.now();
+
+  console.log(`[Liquid tag] Execution took ${t1 - t0} milliseconds.`);
+{% endjavascript %}
 
 {%- liquid
   assign social_icons = true

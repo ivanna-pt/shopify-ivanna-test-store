@@ -18,7 +18,6 @@ class ProductRecommendationsCarousel extends HTMLElement {
         const recommendations = html.querySelector(
           "product-recommendations-carousel"
         );
-        console.log(recommendations);
 
         if (recommendations && recommendations.innerHTML.trim().length) {
           this.innerHTML = recommendations.innerHTML;
@@ -30,7 +29,7 @@ class ProductRecommendationsCarousel extends HTMLElement {
 
   initSwiper() {
     const recommendationsSwiper = new Swiper(
-      ".product-recommendations-swiper",
+      this.querySelector(".swiper-container"),
       {
         slidesPerView: 1.2,
         spaceBetween: 16,

@@ -36,10 +36,9 @@
     <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer="defer"></script>
     {% comment %} Script load testing {% endcomment %}
-    {% comment %}
-      <script src="{{ 'test-script-defer.js' | asset_url }}" defer="defer"></script>
-      {{ 'test-script-asset-tag.js' | asset_url | script_tag }}
-    {% endcomment %}
+
+    <script src="{{ 'test-script-defer.js' | asset_url }}" defer="defer"></script>
+    {{ 'test-script-asset-tag.js' | asset_url | script_tag }}
 
     {%- if settings.animations_reveal_on_scroll -%}
       <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
@@ -375,16 +374,20 @@
     </script>
 
     {% comment %} Inline script test {% endcomment %}
-    {% comment %}
-      <script>
-        const start_inline = performance.now();
-
-        window.addEventListener('load', () => {
-          const end_inline = performance.now();
-          console.log(`[Inline] JS file loaded in ${(end_inline - start_inline).toFixed(2)} ms`);
-        });
-      </script>
-    {% endcomment %}
+    <script>
+      const start_inline = performance.now();
+      window.addEventListener('load', () => {
+        const end_inline = performance.now();
+        console.log(`[Inline] JS file loaded in ${(end_inline - start_inline).toFixed(2)} ms`);
+      });
+      // Code block to measure
+      const inline_t0 = performance.now();
+      for (let i = 0; i < 1000000; i++) {
+        Math.sqrt(i);
+      }
+      const inline_t1 = performance.now();
+      console.log(`[Inline] Execution took ${inline_t1 - inline_t0} milliseconds.`);
+    </script>
 
     {%- if settings.predictive_search_enabled -%}
       <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>

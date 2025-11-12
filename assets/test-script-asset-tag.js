@@ -8,3 +8,17 @@ window.addEventListener("load", () => {
     ).toFixed(2)} ms`
   );
 });
+
+const t0 = performance.now();
+
+// Code block to measure
+for (let i = 0; i < 1000000; i++) {
+  // Perform some operation
+  Math.sqrt(i);
+}
+
+const t1 = performance.now();
+
+console.log(
+  `[asset_url and script_tag] Execution took ${t1 - t0} milliseconds.`
+);
