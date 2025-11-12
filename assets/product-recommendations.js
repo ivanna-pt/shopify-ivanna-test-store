@@ -21,12 +21,50 @@ class ProductRecommendationsCarousel extends HTMLElement {
 
         if (recommendations && recommendations.innerHTML.trim().length) {
           this.innerHTML = recommendations.innerHTML;
+
+          this.initSwiper();
         }
       });
   }
+
+  initSwiper() {
+    const recommendationsSwiper = new Swiper(
+      ".product-recommendations-swiper",
+      {
+        slidesPerView: "auto",
+        spaceBetween: 16,
+        grid: {
+          rows: 1,
+          fill: "row",
+        },
+        breakpoints: {
+          750: {
+            slidesPerView: 2.5,
+            spaceBetween: 20,
+            grid: {
+              rows: 1,
+            },
+          },
+          1280: {
+            slidesPerView: 4,
+            spaceBetween: 24,
+            grid: {
+              rows: 1,
+            },
+          },
+        },
+        navigation: {
+          nextEl: ".swiper-button-next-custom",
+          prevEl: ".swiper-button-prev-custom",
+        },
+      }
+    );
+  }
 }
 
-customElements.define(
-  "product-recommendations-carousel",
-  ProductRecommendationsCarousel
-);
+if (!customElements.get("product-recommendations-carousel")) {
+  customElements.define(
+    "product-recommendations-carousel",
+    ProductRecommendationsCarousel
+  );
+}

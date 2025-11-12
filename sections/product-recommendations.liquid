@@ -1,7 +1,9 @@
+{{ 'product-recommendations-swiper.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'product-recommendations.js' | asset_url }}" defer="defer"></script>
+
 <div class="tw:py-15 tw:md:pt-20">
   <div
-    class="page-width tw:py-15 tw:md:pt-20"
+    class="page-width"
   >
     <product-recommendations-carousel
       data-url="{{ routes.product_recommendations_url }}?limit={{ section.settings.limit }}"
@@ -14,22 +16,30 @@
             {{ section.settings.title }}
           </h2>
         {% endif %}
-        <ul class="tw:flex tw:gap-6 tw:flex-wrap">
-          {%- for product in recommendations.products -%}
-            <li>
-              <a href="{{ product.url }}">
-                <img
-                  src="{{ product.featured_image | image_url: width: 300, height: 300 }}"
-                  alt="{{ product.featured_image.alt }}"
-                  width="300"
-                  height="300"
-                >
-                <p class="tw:text-base tw:mb-2 tw:mt-4">{{ product.title }}</p>
-                <p class="tw:text-base tw:text-gray">{{ product.price | money }}</p>
-              </a>
-            </li>
-          {%- endfor -%}
-        </ul>
+        <div class="swiper-container product-recommendations-swiper">
+          <ul class="swiper-wrapper">
+            {%- for product in recommendations.products -%}
+              <li class="swiper-slide">
+                <a href="{{ product.url }}">
+                  <img
+                    src="{{ product.featured_image | image_url: width: 300, height: 300 }}"
+                    alt="{{ product.featured_image.alt }}"
+                    width="300"
+                    height="300"
+                  >
+                  <p class="tw:text-base tw:mb-2 tw:mt-4">{{ product.title }}</p>
+                  <p class="tw:text-base tw:text-gray">{{ product.price | money }}</p>
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+          <div class="swiper-button-prev-custom" role="button" aria-label="Next Slide">
+            {{ 'Arrow.svg' | inline_asset_content }}
+          </div>
+          <div class="swiper-button-next-custom" role="button" aria-label="Prev Slide">
+            {{ 'Arrow.svg' | inline_asset_content }}
+          </div>
+        </div>
       {% endif %}
     </product-recommendations-carousel>
   </div>

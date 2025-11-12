@@ -1,0 +1,38 @@
+.product-recommendations-swiper {
+  position: relative;
+}
+.swiper-button-next-custom,
+.swiper-button-prev-custom {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ebebeb;
+  border-radius: 50%;
+  background-color: #fff;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+.swiper-button-next-custom:hover,
+.swiper-button-prev-custom:hover {
+  border-color: #111111;
+}
+.swiper-button-next-custom {
+  right: -20px;
+  top: 50%;
+  transform: translateY(-100%);
+}
+.swiper-button-prev-custom {
+  left: -20px;
+  top: 50%;
+  transform: translateY(-100%);
+}
+.swiper-button-prev-custom svg {
+  transform: scaleX(-1);
+}
+.swiper-button-prev-custom.swiper-button-disabled,
+.swiper-button-next-custom.swiper-button-disabled {
+  display: none;
+}
