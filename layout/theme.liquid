@@ -34,6 +34,11 @@
     <script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
+    {% comment %} Script load testing {% endcomment %}
+    {% comment %}
+      <script src="{{ 'test-script-defer.js' | asset_url }}" defer="defer"></script>
+      {{ 'test-script-asset-tag.js' | asset_url | script_tag }}
+    {% endcomment %}
 
     {%- if settings.animations_reveal_on_scroll -%}
       <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
@@ -366,6 +371,18 @@
         countrySelectorSearchCount: `{{ 'localization.country_results_count' | t: count: '[count]' }}`,
       };
     </script>
+
+    {% comment %} Inline script test {% endcomment %}
+    {% comment %}
+      <script>
+        const start_inline = performance.now();
+
+        window.addEventListener('load', () => {
+          const end_inline = performance.now();
+          console.log(`[Inline] JS file loaded in ${(end_inline - start_inline).toFixed(2)} ms`);
+        });
+      </script>
+    {% endcomment %}
 
     {%- if settings.predictive_search_enabled -%}
       <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
