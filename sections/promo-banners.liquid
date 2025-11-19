@@ -48,7 +48,12 @@
               {{
                 block.settings.image
                 | image_url: width: image_width, height: image_height
-                | image_tag: width: image_width, height: image_height, class: 'promo-banner__img', loading: 'lazy'
+                | image_tag:
+                  width: image_width,
+                  height: image_height,
+                  class: 'promo-banner__img',
+                  loading: 'lazy',
+                  aria-hidden: 'true'
               }}
             {%- else -%}
               {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}

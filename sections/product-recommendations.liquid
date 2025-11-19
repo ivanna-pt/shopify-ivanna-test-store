@@ -21,12 +21,19 @@
             {%- for product in recommendations.products -%}
               <li class="swiper-slide">
                 <a href="{{ product.url }}">
-                  <img
-                    src="{{ product.featured_image | image_url: width: 300, height: 300 }}"
-                    alt="{{ product.featured_image.alt }}"
-                    width="300"
-                    height="300"
-                  >
+                  {{
+                    product.featured_image
+                    | image_url: width: 300, height: 300
+                    | image_tag: width: 300, height: 300, alt: product.featured_image.alt, loading: 'lazy'
+                  }}
+                  {% comment %}
+                    <img
+                      src="{{ product.featured_image | image_url: width: 300, height: 300 }}"
+                      alt="{{ product.featured_image.alt }}"
+                      width="300"
+                      height="300"
+                    >
+                  {% endcomment %}
                   <p class="tw:text-base tw:mb-2 tw:mt-4">{{ product.title }}</p>
                   <p class="tw:text-base tw:text-gray">{{ product.price | money }}</p>
                 </a>

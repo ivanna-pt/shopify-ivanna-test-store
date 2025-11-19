@@ -38,7 +38,7 @@
                   {{
                     product.featured_image
                     | image_url: width: 500, height: 500
-                    | image_tag: width: 269, height: 269, loading: 'lazy'
+                    | image_tag: width: 269, height: 269, alt: product.featured_image.alt, loading: 'lazy'
                   }}
                 {%- else -%}
                   {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
