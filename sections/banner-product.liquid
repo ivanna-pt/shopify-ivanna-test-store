@@ -6,15 +6,6 @@
   assign available = target.available | default: false
   assign featured_image_alt = product.featured_image.alt | default: product.title
 -%}
-{% comment %}
-  TO-DO:Check a product and use placeholder if product == null
-  assign placeholder = true
-{% endcomment %}
-
-{% comment %}
-  {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
-  {{ 'section-banner-product.css' | asset_url | stylesheet_tag }}
-{% endcomment %}
 
 <script src="{{ 'banner-product.js' | asset_url }}" defer="defer"></script>
 
@@ -55,7 +46,11 @@
             {{
               variant_image
               | image_url: width: 536
-              | image_tag: alt: featured_image_alt, class: main_image_classes, loading: 'lazy'
+              | image_tag:
+                alt: featured_image_alt,
+                class: main_image_classes,
+                sizes: '(max-width: 600px) 100vw, 536px',
+                loading: 'lazy'
             }}
           {% elsif product.featured_image %}
             {{
@@ -92,6 +87,7 @@
                     height: 88,
                     alt: image_alt,
                     class: 'tw:object-cover',
+                    sizes: '100px',
                     loading: 'lazy',
                     data-gallery-thumb: true,
                     data-large: image_data_large,
@@ -118,29 +114,13 @@
                   height: 88,
                   alt: found_image_alt,
                   class: 'tw:object-cover',
+                  sizes: '100px',
                   loading: 'lazy',
                   data-gallery-thumb: true,
                   data-large: found_image_data_large,
                   data-srcset: found_image_data_srcset,
                   data-sizes: image_data_sizes
               }}
-              {% comment %}
-                <img
-                  src="{{ product.images[0] | image_url: width: 88, height: 88 }}"
-                  alt="{{ product.images[0].alt  | default: product.title | escape }}"
-                  width="88"
-                  height="88"
-                  data-gallery-thumb
-                  data-large="{{ product.images[0] | image_url: width: 536 }}"
-                  data-srcset="
-                    {{ product.images[0] | image_url: width: 200 }} 200w,
-                    {{ product.images[0] | image_url: width: 400 }} 400w,
-                    {{ product.images[0] | image_url: width: 800 }} 800w,
-                    {{ product.images[0] | image_url: width: 1200 }} 1200w
-                  "
-                  data-sizes="(max-width: 600px) 100vw, 536px"
-                >
-              {% endcomment %}
             </div>
           {% endif %}
         </div>

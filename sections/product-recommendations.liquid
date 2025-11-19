@@ -24,16 +24,13 @@
                   {{
                     product.featured_image
                     | image_url: width: 300, height: 300
-                    | image_tag: width: 300, height: 300, alt: product.featured_image.alt, loading: 'lazy'
+                    | image_tag:
+                      width: 300,
+                      height: 300,
+                      alt: product.featured_image.alt,
+                      loading: 'lazy',
+                      sizes: '(min-width: 1200px) 25vw, (min-width: 750px) 50vw, 100vw'
                   }}
-                  {% comment %}
-                    <img
-                      src="{{ product.featured_image | image_url: width: 300, height: 300 }}"
-                      alt="{{ product.featured_image.alt }}"
-                      width="300"
-                      height="300"
-                    >
-                  {% endcomment %}
                   <p class="tw:text-base tw:mb-2 tw:mt-4">{{ product.title }}</p>
                   <p class="tw:text-base tw:text-gray">{{ product.price | money }}</p>
                 </a>

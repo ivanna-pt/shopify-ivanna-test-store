@@ -274,9 +274,6 @@
   .tw\:flex-col {
     flex-direction: column;
   }
-  .tw\:flex-wrap {
-    flex-wrap: wrap;
-  }
   .tw\:items-center {
     align-items: center;
   }
@@ -343,10 +340,6 @@
   .tw\:text-center {
     text-align: center;
   }
-  .tw\:text-2xl {
-    font-size: var(--tw-text-2xl);
-    line-height: var(--tw-leading, var(--tw-text-2xl--line-height));
-  }
   .tw\:text-2xl\! {
     font-size: var(--tw-text-2xl) !important;
     line-height: var(--tw-leading, var(--tw-text-2xl--line-height)) !important;
@@ -366,10 +359,6 @@
   .tw\:font-medium {
     --tw-font-weight: var(--tw-font-weight-medium);
     font-weight: var(--tw-font-weight-medium);
-  }
-  .tw\:font-normal {
-    --tw-font-weight: var(--tw-font-weight-normal);
-    font-weight: var(--tw-font-weight-normal);
   }
   .tw\:font-normal\! {
     --tw-font-weight: var(--tw-font-weight-normal) !important;
@@ -425,12 +414,6 @@
     @media (width >= 750px) {
       font-size: var(--tw-text-3xl);
       line-height: var(--tw-leading, var(--tw-text-3xl--line-height));
-    }
-  }
-  .tw\:md\:text-4xl {
-    @media (width >= 750px) {
-      font-size: var(--tw-text-4xl);
-      line-height: var(--tw-leading, var(--tw-text-4xl--line-height));
     }
   }
   .tw\:md\:text-4xl\! {

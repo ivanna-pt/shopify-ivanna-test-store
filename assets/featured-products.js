@@ -66,14 +66,6 @@ featuredProductsSection.forEach((section) => {
         if (bubble && data["cart-icon-bubble"]) {
           bubble.innerHTML = data["cart-icon-bubble"];
         }
-
-        // Update mini cart (no cartdrawer element in the DOM)
-        // const drawer = document.querySelector("#cart-drawer");
-        // if (drawer && data["cart-drawer"]) {
-        //   console.log("Updating cart drawer");
-        //   drawer.outerHTML = data["cart-drawer"];
-        //   document.querySelector(".cart-drawer").classList.add("is-open");
-        // }
       } catch (error) {
         console.error("Error adding product to cart:", error);
       }
