@@ -32,17 +32,17 @@
             {%- if block.settings.image != blank -%}
               {%- case aspect_ratio -%}
                 {%- when 'square' -%}
-                  {%- assign image_width = 800 -%}
-                  {%- assign image_height = 800 -%}
+                  {%- assign image_width = 400 -%}
+                  {%- assign image_height = 400 -%}
                 {%- when 'landscape' -%}
-                  {%- assign image_width = 1200 -%}
-                  {%- assign image_height = 800 -%}
+                  {%- assign image_width = 600 -%}
+                  {%- assign image_height = 400 -%}
                 {%- when 'widescreen' -%}
-                  {%- assign image_width = 1600 -%}
-                  {%- assign image_height = 900 -%}
-                {%- else -%}
                   {%- assign image_width = 800 -%}
-                  {%- assign image_height = 800 -%}
+                  {%- assign image_height = 450 -%}
+                {%- else -%}
+                  {%- assign image_width = 400 -%}
+                  {%- assign image_height = 400 -%}
               {%- endcase -%}
 
               {{

@@ -47,6 +47,8 @@
               variant_image
               | image_url: width: 536
               | image_tag:
+                width: 536,
+                height: 536,
                 alt: featured_image_alt,
                 class: main_image_classes,
                 sizes: '(max-width: 600px) 100vw, 536px',
@@ -57,6 +59,8 @@
               product.featured_image
               | image_url: width: 536
               | image_tag:
+                width: 536,
+                height: 536,
                 alt: featured_image_alt,
                 class: main_image_classes,
                 sizes: '(max-width: 600px) 100vw, 536px',
@@ -192,12 +196,12 @@
                             variant.image
                             | image_url: width: 512, height: 512
                             | image_tag:
-                            width: 88,
-                            height: 88,
-                            alt: variant.image.alt,
-                            class: 'tw:rounded-md tw:object-cover',
-                            sizes: '88px'
-                            loading: 'lazy'
+                              width: 88,
+                              height: 88,
+                              alt: variant.image.alt,
+                              class: 'tw:rounded-md tw:object-cover',
+                              sizes: '88px',
+                              loading: 'lazy'
                           }}
                         {% else %}
                           {{ 'image' | placeholder_svg_tag: 'tw:rounded-md tw:w-22 tw:h-22' }}
