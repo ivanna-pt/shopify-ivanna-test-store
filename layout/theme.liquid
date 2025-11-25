@@ -35,7 +35,7 @@
     <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'lazyloading.js' | asset_url }}" defer="defer"></script>
-    {% comment %} <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer="defer"></script> {% endcomment %}
+    <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer="defer"></script>
 
     {%- if settings.animations_reveal_on_scroll -%}
       <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
@@ -259,7 +259,7 @@
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'tailwind.css' | asset_url | stylesheet_tag }}
-    {% comment %} {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }} {% endcomment %}
+    {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
 
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 
