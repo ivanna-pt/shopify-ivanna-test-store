@@ -170,6 +170,22 @@
           "wlProductHandleExtractor": "",
           "searchAndFilterApp": "none"
         }
+      },
+      "6615124273980966592": {
+        "type": "shopify://apps/chatty/blocks/app-embed/1c0e135d-e8e1-4fe2-86be-1c36def46675",
+        "disabled": false,
+        "settings": {}
+      },
+      "7870687481494312845": {
+        "type": "shopify://apps/wishlist-hero/blocks/app-embed/a9a5079b-59e8-47cb-b659-ecf1c60b9b72",
+        "disabled": false,
+        "settings": {
+          "customThemeName": "~",
+          "additionalWLButtonCssClasses": "",
+          "additionalWLCartBubbleCssClasses": "",
+          "extraHTMLToAppend": "",
+          "disableAutomaticButtonAddition": false
+        }
       }
     },
     "color_schemes": {

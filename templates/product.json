@@ -15,8 +15,8 @@
         "wishlist_hero_custom_product_button_LDzAyd": {
           "type": "shopify://apps/wishlist-hero/blocks/custom-product-button/a9a5079b-59e8-47cb-b659-ecf1c60b9b72",
           "settings": {
-            "displayButtonMode": "~",
-            "contentAlignment": "center",
+            "displayButtonMode": "icon_only",
+            "contentAlignment": "left",
             "buttonAlignment": "center",
             "overrideFont": false,
             "customFont": "sans_serif_n4",
