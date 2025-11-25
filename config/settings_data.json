@@ -146,6 +146,30 @@
         "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
         "disabled": false,
         "settings": {}
+      },
+      "10486658301671024706": {
+        "type": "shopify://apps/wishlist-hero/blocks/collection-embed/a9a5079b-59e8-47cb-b659-ecf1c60b9b72",
+        "disabled": false,
+        "settings": {
+          "customThemeName": "~",
+          "wlIconPlacementInCard": "auto",
+          "iconHorizontalOffset": 0,
+          "iconVerticalOffset": 0,
+          "iconBackgroundSize": 40,
+          "iconFontSize": 0,
+          "enableCustomColors": false,
+          "wishlistIconColor": "#f3f3f3",
+          "wishlistIconBgColor": "",
+          "wishlistIconBgColorAlpha": 100,
+          "addedWishlistIconColor": "",
+          "addedWishlistIconBgColor": "",
+          "addedWishlistIconBgColorAlpha": 100,
+          "wlCollectionCardSelectorClass": "",
+          "wlIconPlacementInCardSelector": "",
+          "wlIconPlacementInCardMode": "I",
+          "wlProductHandleExtractor": "",
+          "searchAndFilterApp": "none"
+        }
       }
     },
     "color_schemes": {
