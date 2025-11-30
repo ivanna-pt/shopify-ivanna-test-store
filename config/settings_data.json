@@ -142,14 +142,25 @@
     },
     "content_for_index": [],
     "blocks": {
-      "14060646107696862457": {
-        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-        "disabled": false,
+      "6615124273980966592": {
+        "type": "shopify://apps/chatty/blocks/app-embed/1c0e135d-e8e1-4fe2-86be-1c36def46675",
+        "disabled": true,
         "settings": {}
+      },
+      "7870687481494312845": {
+        "type": "shopify://apps/wishlist-hero/blocks/app-embed/a9a5079b-59e8-47cb-b659-ecf1c60b9b72",
+        "disabled": true,
+        "settings": {
+          "customThemeName": "~",
+          "additionalWLButtonCssClasses": "",
+          "additionalWLCartBubbleCssClasses": "",
+          "extraHTMLToAppend": "",
+          "disableAutomaticButtonAddition": false
+        }
       },
       "10486658301671024706": {
         "type": "shopify://apps/wishlist-hero/blocks/collection-embed/a9a5079b-59e8-47cb-b659-ecf1c60b9b72",
-        "disabled": false,
+        "disabled": true,
         "settings": {
           "customThemeName": "~",
           "wlIconPlacementInCard": "auto",
@@ -171,21 +182,10 @@
           "searchAndFilterApp": "none"
         }
       },
-      "6615124273980966592": {
-        "type": "shopify://apps/chatty/blocks/app-embed/1c0e135d-e8e1-4fe2-86be-1c36def46675",
-        "disabled": false,
+      "14060646107696862457": {
+        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": true,
         "settings": {}
-      },
-      "7870687481494312845": {
-        "type": "shopify://apps/wishlist-hero/blocks/app-embed/a9a5079b-59e8-47cb-b659-ecf1c60b9b72",
-        "disabled": false,
-        "settings": {
-          "customThemeName": "~",
-          "additionalWLButtonCssClasses": "",
-          "additionalWLCartBubbleCssClasses": "",
-          "extraHTMLToAppend": "",
-          "disableAutomaticButtonAddition": false
-        }
       }
     },
     "color_schemes": {
