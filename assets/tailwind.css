@@ -22,6 +22,8 @@
     --tw-text-2xl--line-height: calc(2 / 1.5);
     --tw-text-3xl: 30px;
     --tw-text-3xl--line-height: calc(2.25 / 1.875);
+    --tw-text-4xl: 36px;
+    --tw-text-4xl--line-height: calc(2.5 / 2.25);
     --tw-font-weight-light: 300;
     --tw-font-weight-normal: 400;
     --tw-font-weight-medium: 500;
@@ -212,11 +214,20 @@
   .tw\:my-6 {
     margin-block: calc(var(--tw-spacing) * 6);
   }
+  .tw\:mt-4 {
+    margin-top: calc(var(--tw-spacing) * 4);
+  }
   .tw\:mt-6 {
     margin-top: calc(var(--tw-spacing) * 6);
   }
+  .tw\:mb-2 {
+    margin-bottom: calc(var(--tw-spacing) * 2);
+  }
   .tw\:mb-3 {
     margin-bottom: calc(var(--tw-spacing) * 3);
+  }
+  .tw\:mb-9 {
+    margin-bottom: calc(var(--tw-spacing) * 9);
   }
   .tw\:flex {
     display: flex;
@@ -317,11 +328,17 @@
   .tw\:py-2 {
     padding-block: calc(var(--tw-spacing) * 2);
   }
+  .tw\:py-15 {
+    padding-block: calc(var(--tw-spacing) * 15);
+  }
   .tw\:pt-11 {
     padding-top: calc(var(--tw-spacing) * 11);
   }
   .tw\:pb-9 {
     padding-bottom: calc(var(--tw-spacing) * 9);
+  }
+  .tw\:text-center {
+    text-align: center;
   }
   .tw\:text-2xl\! {
     font-size: var(--tw-text-2xl) !important;
@@ -373,19 +390,24 @@
     --tw-shadow: 0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
+  .tw\:md\:mb-12 {
+    @media (width >= 750px) {
+      margin-bottom: calc(var(--tw-spacing) * 12);
+    }
+  }
   .tw\:md\:flex-1 {
     @media (width >= 750px) {
       flex: 1;
     }
   }
-  .tw\:md\:grid-cols-3 {
-    @media (width >= 750px) {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-  }
   .tw\:md\:flex-row {
     @media (width >= 750px) {
       flex-direction: row;
+    }
+  }
+  .tw\:md\:pt-20 {
+    @media (width >= 750px) {
+      padding-top: calc(var(--tw-spacing) * 20);
     }
   }
   .tw\:md\:text-3xl {
@@ -394,14 +416,15 @@
       line-height: var(--tw-leading, var(--tw-text-3xl--line-height));
     }
   }
+  .tw\:md\:text-4xl\! {
+    @media (width >= 750px) {
+      font-size: var(--tw-text-4xl) !important;
+      line-height: var(--tw-leading, var(--tw-text-4xl--line-height)) !important;
+    }
+  }
   .tw\:lg\:grid-cols-3 {
     @media (width >= 990px) {
       grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-  }
-  .tw\:lg\:flex-row {
-    @media (width >= 990px) {
-      flex-direction: row;
     }
   }
 }

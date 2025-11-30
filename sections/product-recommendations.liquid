@@ -1,0 +1,81 @@
+{{ 'product-recommendations-swiper.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-recommendations.js' | asset_url }}" defer="defer"></script>
+
+<div class="tw:py-15 tw:md:pt-20">
+  <div
+    class="page-width"
+  >
+    <product-recommendations-carousel
+      data-url="{{ routes.product_recommendations_url }}?limit={{ section.settings.limit }}"
+      data-product-id="{{ product.id }}"
+      data-section-id="{{ section.id }}"
+    >
+      {%- if recommendations.performed? and recommendations.products_count > 0 -%}
+        {% if section.settings.title != blank %}
+          <h2 class="tw:text-2xl! tw:md:text-4xl! tw:font-normal! tw:text-center tw:mb-9 tw:md:mb-12">
+            {{ section.settings.title }}
+          </h2>
+        {% endif %}
+        <div class="swiper-container product-recommendations-swiper">
+          <ul class="swiper-wrapper">
+            {%- for product in recommendations.products -%}
+              <li class="swiper-slide">
+                <a href="{{ product.url }}">
+                  {{
+                    product.featured_image
+                    | image_url: width: 300, height: 300
+                    | image_tag:
+                      width: 300,
+                      height: 300,
+                      alt: product.featured_image.alt,
+                      loading: 'lazy',
+                      class: 'lazy-images',
+                      sizes: '(min-width: 1200px) 25vw, (min-width: 750px) 50vw, 100vw'
+                  }}
+                  <p class="tw:text-base tw:mb-2 tw:mt-4">{{ product.title }}</p>
+                  <p class="tw:text-base tw:text-gray">{{ product.price | money }}</p>
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+          <div class="swiper-button-prev-custom" role="button" aria-label="Next Slide">
+            {{ 'Arrow.svg' | inline_asset_content }}
+          </div>
+          <div class="swiper-button-next-custom" role="button" aria-label="Prev Slide">
+            {{ 'Arrow.svg' | inline_asset_content }}
+          </div>
+        </div>
+      {% endif %}
+    </product-recommendations-carousel>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Product recommendations",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Featured Collection",
+      "label": "Section title"
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "Products to show",
+      "default": 10,
+      "min": 1,
+      "max": 10,
+      "step": 1
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product recommendations"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}
