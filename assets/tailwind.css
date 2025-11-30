@@ -8,7 +8,9 @@
     --tw-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
     --tw-color-red-300: oklch(80.8% 0.114 19.571);
+    --tw-color-red-400: oklch(70.4% 0.191 22.216);
     --tw-color-red-500: oklch(63.7% 0.237 25.331);
+    --tw-color-red-600: oklch(57.7% 0.245 27.325);
     --tw-color-black: #121212;
     --tw-color-white: #fff;
     --tw-spacing: 4px;
@@ -316,6 +318,9 @@
   .tw\:bg-red-500 {
     background-color: var(--tw-color-red-500);
   }
+  .tw\:bg-red-600 {
+    background-color: var(--tw-color-red-600);
+  }
   .tw\:bg-white {
     background-color: var(--tw-color-white);
   }
@@ -373,6 +378,15 @@
   }
   .tw\:text-red-300 {
     color: var(--tw-color-red-300);
+  }
+  .tw\:text-red-400 {
+    color: var(--tw-color-red-400);
+  }
+  .tw\:text-red-500 {
+    color: var(--tw-color-red-500);
+  }
+  .tw\:text-red-600 {
+    color: var(--tw-color-red-600);
   }
   .tw\:text-white {
     color: var(--tw-color-white);
