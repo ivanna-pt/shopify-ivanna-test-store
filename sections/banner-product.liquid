@@ -6,15 +6,6 @@
   assign available = target.available | default: false
   assign featured_image_alt = product.featured_image.alt | default: product.title
 -%}
-{% comment %}
-  TO-DO:Check a product and use placeholder if product == null
-  assign placeholder = true
-{% endcomment %}
-
-{% comment %}
-  {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
-  {{ 'section-banner-product.css' | asset_url | stylesheet_tag }}
-{% endcomment %}
 
 <script src="{{ 'banner-product.js' | asset_url }}" defer="defer"></script>
 
@@ -52,12 +43,28 @@
           {% assign variant_image = target.image %}
           {% assign main_image_classes = 'tw:aspect-square tw:object-cover tw:rounded-lg' %}
           {% if variant_image %}
-            {{ variant_image | image_url: width: 536 | image_tag: alt: featured_image_alt, class: main_image_classes }}
+            {{
+              variant_image
+              | image_url: width: 536
+              | image_tag:
+                width: 536,
+                height: 536,
+                alt: featured_image_alt,
+                class: main_image_classes,
+                sizes: '(max-width: 600px) 100vw, 536px',
+                loading: 'lazy'
+            }}
           {% elsif product.featured_image %}
             {{
               product.featured_image
               | image_url: width: 536
-              | image_tag: alt: featured_image_alt, class: main_image_classes
+              | image_tag:
+                width: 536,
+                height: 536,
+                alt: featured_image_alt,
+                class: main_image_classes,
+                sizes: '(max-width: 600px) 100vw, 536px',
+                loading: 'lazy'
             }}
           {% else %}
             {{ 'image' | placeholder_svg_tag: 'placeholder-svg-class' }}
@@ -73,44 +80,55 @@
           {% for image in product.images %}
             {% assign image_url = image | image_url: width: 536 | downcase %}
             {% if image_url contains selected_color %}
+              {% assign image_alt = image.alt | default: product.title | escape %}
+              {%- assign image_data_large = image | image_url: width: 536 -%}
+              {%- capture image_data_srcset -%}
+                    {{ image | image_url: width: 200 }} 200w, {{ image | image_url: width: 400 }} 400w, {{ image | image_url: width: 800 }} 800w, {{ image | image_url: width: 1200 }} 1200w                  
+              {%- endcapture -%}
+              {%- assign image_data_sizes = '(max-width: 600px) 100vw, 536px' -%}
               <div class="tw:relative tw:overflow-hidden tw:rounded-lg" data-gallery-item>
-                {% comment %} {{ image | image_url: width: 536 | image_tag: width: 88, height: 88, alt: image.alt }} {% endcomment %}
-                <img
-                  src="{{ image | image_url: width: 88, height: 88 }}"
-                  alt="{{ image.alt  | default: product.title | escape }}"
-                  width="88"
-                  height="88"
-                  data-gallery-thumb
-                  data-large="{{ image | image_url: width: 536 }}"
-                  data-srcset="
-                    {{ image | image_url: width: 200 }} 200w,
-                    {{ image | image_url: width: 400 }} 400w,
-                    {{ image | image_url: width: 800 }} 800w,
-                    {{ image | image_url: width: 1200 }} 1200w
-                  "
-                  data-sizes="(max-width: 600px) 100vw, 536px"
-                >
+                {{
+                  image
+                  | image_url: width: 136
+                  | image_tag:
+                    width: 88,
+                    height: 88,
+                    alt: image_alt,
+                    class: 'tw:object-cover lazy-image',
+                    sizes: '88px',
+                    loading: 'lazy',
+                    data-gallery-thumb: true,
+                    data-large: image_data_large,
+                    data-srcset: image_data_srcset,
+                    data-sizes: image_data_sizes
+                }}
                 {% assign found_image = true %}
               </div>
             {% endif %}
           {% endfor %}
           {% if found_image == false and product.images.size > 0 %}
+            {% assign found_image_src = product.images[0] | image_url: width: 88, height: 88 %}
+            {% assign found_image_alt = product.images[0].alt | default: product.title | escape %}
+            {%- assign found_image_data_large = product.images[0] | image_url: width: 536 -%}
+            {%- capture found_image_data_srcset -%}
+                    {{ product.images[0] | image_url: width: 200 }} 200w, {{ product.images[0] | image_url: width: 400 }} 400w, {{ product.images[0] | image_url: width: 800 }} 800w, {{ product.images[0] | image_url: width: 1200 }} 1200w                  
+              {%- endcapture -%}
             <div class="tw:relative tw:overflow-hidden tw:rounded-lg" data-gallery-item>
-              <img
-                src="{{ product.images[0] | image_url: width: 88, height: 88 }}"
-                alt="{{ product.images[0].alt  | default: product.title | escape }}"
-                width="88"
-                height="88"
-                data-gallery-thumb
-                data-large="{{ product.images[0] | image_url: width: 536 }}"
-                data-srcset="
-                  {{ product.images[0] | image_url: width: 200 }} 200w,
-                  {{ product.images[0] | image_url: width: 400 }} 400w,
-                  {{ product.images[0] | image_url: width: 800 }} 800w,
-                  {{ product.images[0] | image_url: width: 1200 }} 1200w
-                "
-                data-sizes="(max-width: 600px) 100vw, 536px"
-              >
+              {{
+                found_image_src
+                | image_url: width: 136
+                | image_tag:
+                  width: 88,
+                  height: 88,
+                  alt: found_image_alt,
+                  class: 'tw:object-cover lazy-image',
+                  sizes: '88px',
+                  loading: 'lazy',
+                  data-gallery-thumb: true,
+                  data-large: found_image_data_large,
+                  data-srcset: found_image_data_srcset,
+                  data-sizes: image_data_sizes
+              }}
             </div>
           {% endif %}
         </div>
@@ -176,12 +194,14 @@
                         {% if variant.image %}
                           {{
                             variant.image
-                            | image_url: width: 512, height: 512
+                            | image_url: width: 136, height: 136
                             | image_tag:
                               width: 88,
                               height: 88,
                               alt: variant.image.alt,
-                              class: 'tw:rounded-md tw:object-cover'
+                              class: 'tw:rounded-md tw:object-cover',
+                              sizes: '88px',
+                              loading: 'lazy'
                           }}
                         {% else %}
                           {{ 'image' | placeholder_svg_tag: 'tw:rounded-md tw:w-22 tw:h-22' }}
