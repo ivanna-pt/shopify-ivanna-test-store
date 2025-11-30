@@ -12,26 +12,6 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "wishlist_hero_custom_product_button_LDzAyd": {
-          "type": "shopify://apps/wishlist-hero/blocks/custom-product-button/a9a5079b-59e8-47cb-b659-ecf1c60b9b72",
-          "settings": {
-            "displayButtonMode": "text_with_icon",
-            "contentAlignment": "left",
-            "buttonAlignment": "center",
-            "overrideFont": false,
-            "customFont": "sans_serif_n4",
-            "buttonFullwidth": true,
-            "removeBoxShadowAndBorder": false,
-            "horizontalPadding": 20,
-            "iconTopOffset": 0,
-            "addedCssClassNames": "",
-            "addedContainerStyles": ""
-          }
-        },
-        "judge_me_reviews_preview_badge_GhadcL": {
-          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {}
-        },
         "vendor": {
           "type": "text",
           "settings": {
@@ -77,8 +57,6 @@
         }
       },
       "block_order": [
-        "wishlist_hero_custom_product_button_LDzAyd",
-        "judge_me_reviews_preview_badge_GhadcL",
         "vendor",
         "title",
         "price",
