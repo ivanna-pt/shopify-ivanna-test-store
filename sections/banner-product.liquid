@@ -164,9 +164,19 @@
         {%- assign product_form_id = 'product-form-' | append: section.id -%}
         {% form 'product', product, id: product_form_id %}
           {% unless product.has_only_default_variant %}
-            <div class="product-variants tw:my-6">
+            <variant-selector
+              class="product-variants tw:my-6"
+              data-product-handle="{{ product.handle }}"
+              data-section-id="{{ section.id }}"
+              data-variants="{{ product.variants | json | escape }}"
+            >
               {% for option in product.options_with_values %}
                 {% assign option_name = option.name | downcase %}
+                {% if option_name == 'color' or option_name == 'colour' %}
+                  {% assign is_color = true %}
+                {% else %}
+                  {% assign is_color = false %}
+                {% endif %}
                 <fieldset class="product-form__option">
                   <legend class="product-form__option-name tw:text-sm tw:mb-3">
                     {{
@@ -176,31 +186,32 @@
                     -}}
                     :
                   </legend>
-                  <div class="product-form__option-values tw-options-list  {% if option_name == "color" or option_name == "colour" %}product-form__option-values--color tw:flex tw:align-center {% else %} tw:grid tw:grid-cols-2 tw:lg:grid-cols-3{% endif %}">
+                  <div class="product-form__option-values tw-options-list  {% if is_color %}product-form__option-values--color tw:flex tw:align-center {% else %} tw:grid tw:grid-cols-2 tw:lg:grid-cols-3{% endif %}">
                     {% for value in option.values %}
-                      {% if option_name == 'color' or option_name == 'colour' %}
-                        {% assign variant = value.variant %}
-                        {% assign variant_image_alt = value | append: ' - ' | append: product.title %}
-                        {% capture data_option_input %}
-                          data-{{ option_name | downcase }}-input
-                        {% endcapture %}
-                        <div class="product-form__option-value {% unless value.variant.available %}product-form__option-value--unavailable{% endunless %}">
-                          <input
-                            type="radio"
-                            id="option-{{ option.position }}-{{ forloop.index }}"
-                            name="option-{{ option.name | downcase }}"
-                            value="{{ variant.id }}"
-                            class="tw:sr-only"
-                            {% if option.selected_value == value %}
-                              checked
-                            {% endif %}
-                            data-color-input
-                            data-variant-id="{{ variant.id }}"
-                          >
-                          <label
-                            for="option-{{ option.position }}-{{ forloop.index }}"
-                            class="tw-option-label tw-color-swatch {% if option.selected_value == value %} active{% endif %} tw:inline-block tw:cursor-pointer"
-                          >
+                      {% comment %} {% assign variant = value.variant %} {% endcomment %}
+                      {% assign variant_image_alt = value | append: ' - ' | append: product.title %}
+                      {% assign option_key = 'option' | append: option.position %}
+                      {% assign matching_variants = product.variants | where: option_key, value %}
+                      {% assign variant = matching_variants.first %}
+                      {% assign input_value = variant[option_key] %}
+                      <div class="product-form__option-value {% unless value.variant.available %}product-form__option-value--unavailable{% endunless %}">
+                        <input
+                          type="radio"
+                          id="option-{{ option.position }}-{{ forloop.index }}"
+                          name="option-{{ option.position }}"
+                          value="{{ input_value }}"
+                          class="tw:sr-only"
+                          {% if option.selected_value == value %}
+                            checked
+                          {% endif %}
+                          data-color-input
+                          data-variant-id="{{ variant.id }}"
+                        >
+                        <label
+                          for="option-{{ option.position }}-{{ forloop.index }}"
+                          class="tw-option-label tw:inline-block tw:cursor-pointer {% if is_color %} tw-color-swatch {% else %} tw-generic-button tw:w-full{% endif %} {% if option.selected_value == value %} active{% endif %}"
+                        >
+                          {% if is_color %}
                             {% if variant.image %}
                               {{
                                 variant.image
@@ -217,32 +228,16 @@
                               {{ 'image' | placeholder_svg_tag: 'tw:rounded-md tw:w-22 tw:h-22' }}
                               <span class="tw:sr-only">{{ variant_image_alt }}</span>
                             {% endif %}
-                          </label>
-                        </div>
-                      {% else %}
-                        <div class="product-form__option-value {% unless value.variant.available %}product-form__option-value--unavailable{% endunless %}">
-                          <input
-                            type="radio"
-                            id="option-{{ option.position }}-{{ forloop.index }}"
-                            name="option-{{ option.position }}"
-                            value="{{ value | downcase }}"
-                            class="tw:sr-only"
-                            {{ data_option_input | strip }}
-                            data-variant-id="{{ variant.id }}"
-                          >
-                          <label
-                            for="option-{{ option.position }}-{{ forloop.index }}"
-                            class="tw-option-label tw-generic-button {% if option.selected_value == value %} active{% endif %} tw:w-full tw:inline-block tw:cursor-pointer"
-                          >
+                          {% else %}
                             {{ value }}
-                          </label>
-                        </div>
-                      {% endif %}
+                          {% endif %}
+                        </label>
+                      </div>
                     {% endfor %}
                   </div>
                 </fieldset>
               {% endfor %}
-            </div>
+            </variant-selector>
           {% endunless %}
           {% comment %}
             {% if product.variants.size > 1 %}
