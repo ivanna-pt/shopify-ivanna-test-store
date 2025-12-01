@@ -264,6 +264,9 @@
   .tw\:w-22 {
     width: calc(var(--tw-spacing) * 22);
   }
+  .tw\:w-full {
+    width: 100%;
+  }
   .tw\:shrink-0 {
     flex-shrink: 0;
   }
@@ -314,9 +317,6 @@
   }
   .tw\:bg-gray {
     background-color: var(--tw-color-gray);
-  }
-  .tw\:bg-red-500 {
-    background-color: var(--tw-color-red-500);
   }
   .tw\:bg-red-600 {
     background-color: var(--tw-color-red-600);
@@ -375,15 +375,6 @@
   }
   .tw\:text-gray {
     color: var(--tw-color-gray);
-  }
-  .tw\:text-red-300 {
-    color: var(--tw-color-red-300);
-  }
-  .tw\:text-red-400 {
-    color: var(--tw-color-red-400);
-  }
-  .tw\:text-red-500 {
-    color: var(--tw-color-red-500);
   }
   .tw\:text-red-600 {
     color: var(--tw-color-red-600);

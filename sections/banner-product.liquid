@@ -1,5 +1,7 @@
 {%- liquid
-  assign product = section.settings.product | default: product
+  unless template.name contains 'product'
+    assign product = all_products[section.settings.product]
+  endunless
   assign target = product.selected_or_first_available_variant
   assign compare_at_price = target.compare_at_price
   assign price = target.price | default: 1999
@@ -159,126 +161,228 @@
             {%- endunless -%}
           </div>
         </div>
-        {% if product.variants.size > 1 %}
-          <div class="tw:my-6">
-            {% for option in product.options_with_values %}
-              {% assign option_name = option.name | downcase %}
+        {%- assign product_form_id = 'product-form-' | append: section.id -%}
+        {% form 'product', product, id: product_form_id %}
+          {% unless product.has_only_default_variant %}
+            <div class="product-variants tw:my-6">
+              {% for option in product.options_with_values %}
+                {% assign option_name = option.name | downcase %}
+                <fieldset class="product-form__option">
+                  <legend class="product-form__option-name tw:text-sm tw:mb-3">
+                    {{
+                      'products.product.banner-product.select_option'
+                      | t: option_name: option.name
+                      | default: option.name
+                    -}}
+                    :
+                  </legend>
+                  <div class="product-form__option-values tw-options-list  {% if option_name == "color" or option_name == "colour" %}product-form__option-values--color tw:flex tw:align-center {% else %} tw:grid tw:grid-cols-2 tw:lg:grid-cols-3{% endif %}">
+                    {% for value in option.values %}
+                      {% if option_name == 'color' or option_name == 'colour' %}
+                        {% assign variant = value.variant %}
+                        {% assign variant_image_alt = value | append: ' - ' | append: product.title %}
+                        {% capture data_option_input %}
+                          data-{{ option_name | downcase }}-input
+                        {% endcapture %}
+                        <div class="product-form__option-value {% unless value.variant.available %}product-form__option-value--unavailable{% endunless %}">
+                          <input
+                            type="radio"
+                            id="option-{{ option.position }}-{{ forloop.index }}"
+                            name="option-{{ option.name | downcase }}"
+                            value="{{ variant.id }}"
+                            class="tw:sr-only"
+                            {% if option.selected_value == value %}
+                              checked
+                            {% endif %}
+                            data-color-input
+                            data-variant-id="{{ variant.id }}"
+                          >
+                          <label
+                            for="option-{{ option.position }}-{{ forloop.index }}"
+                            class="tw-option-label tw-color-swatch {% if option.selected_value == value %} active{% endif %} tw:inline-block tw:cursor-pointer"
+                          >
+                            {% if variant.image %}
+                              {{
+                                variant.image
+                                | image_url: width: 136, height: 136
+                                | image_tag:
+                                  width: 88,
+                                  height: 88,
+                                  alt: variant_image_alt,
+                                  class: 'tw:rounded-md tw:object-cover',
+                                  sizes: '88px',
+                                  loading: 'lazy'
+                              }}
+                            {% else %}
+                              {{ 'image' | placeholder_svg_tag: 'tw:rounded-md tw:w-22 tw:h-22' }}
+                              <span class="tw:sr-only">{{ variant_image_alt }}</span>
+                            {% endif %}
+                          </label>
+                        </div>
+                      {% else %}
+                        <div class="product-form__option-value {% unless value.variant.available %}product-form__option-value--unavailable{% endunless %}">
+                          <input
+                            type="radio"
+                            id="option-{{ option.position }}-{{ forloop.index }}"
+                            name="option-{{ option.position }}"
+                            value="{{ value | downcase }}"
+                            class="tw:sr-only"
+                            {{ data_option_input | strip }}
+                            data-variant-id="{{ variant.id }}"
+                          >
+                          <label
+                            for="option-{{ option.position }}-{{ forloop.index }}"
+                            class="tw-option-label tw-generic-button {% if option.selected_value == value %} active{% endif %} tw:w-full tw:inline-block tw:cursor-pointer"
+                          >
+                            {{ value }}
+                          </label>
+                        </div>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                </fieldset>
+              {% endfor %}
+            </div>
+          {% endunless %}
+          {% comment %}
+            {% if product.variants.size > 1 %}
+              <div class="tw:my-6">
+                {% for option in product.options_with_values %}
+                  {% assign option_name = option.name | downcase %}
 
-              {% case option_name %}
-                {%- when 'color', 'colour' -%}
-                  <p class="tw:text-sm tw:mb-3">
-                    {{
-                      'products.product.banner-product.select_option'
-                      | t: option_name: option.name
-                      | default: option.name
-                    -}}
-                    :
-                  </p>
-                  <div
-                    class="tw-options-list tw:flex tw:align-center"
-                  >
-                    {%- for value in option.values limit: 3 -%}
-                      {% assign variant = value.variant %}
-                      {% assign variant_image_alt = value | append: ' - ' | append: product.title %}
-                      <input
-                        type="radio"
-                        id="option-{{ option.position }}-{{ forloop.index }}"
-                        name="option-{{ option.position }}"
-                        value="{{ value | downcase }}"
-                        class="tw:sr-only"
-                        data-color-input
-                        data-variant-id="{{ variant.id }}"
+                  {% case option_name %}
+                    {%- when 'color', 'colour' -%}
+                      <p class="tw:text-sm tw:mb-3">
+                        {{
+                          'products.product.banner-product.select_option'
+                          | t: option_name: option.name
+                          | default: option.name
+                        -}}
+                        :
+                      </p>
+                      <div
+                        class="tw-options-list tw:flex tw:align-center"
                       >
-                      <label
-                        for="option-{{ option.position }}-{{ forloop.index }}"
-                        class="tw-option-label tw-color-swatch {% if option.selected_value == value %} active{% endif %} tw:inline-block tw:cursor-pointer"
-                      >
-                        {% if variant.image %}
-                          {{
-                            variant.image
-                            | image_url: width: 136, height: 136
-                            | image_tag:
-                              width: 88,
-                              height: 88,
-                              alt: variant_image_alt,
-                              class: 'tw:rounded-md tw:object-cover',
-                              sizes: '88px',
-                              loading: 'lazy'
-                          }}
-                        {% else %}
-                          {{ 'image' | placeholder_svg_tag: 'tw:rounded-md tw:w-22 tw:h-22' }}
-                          <span class="tw:sr-only">{{ variant_image_alt }}</span>
-                        {% endif %}
-                      </label>
-                    {%- endfor -%}
-                  </div>
-                {%- when 'size' -%}
-                  <p class="tw:text-sm tw:mb-3">
-                    {{
-                      'products.product.banner-product.select_option'
-                      | t: option_name: option.name
-                      | default: option.name
-                    -}}
-                    :
-                  </p>
-                  <div class="tw-options-list tw:grid tw:grid-cols-2 tw:lg:grid-cols-3">
-                    {%- for value in option.values -%}
-                      <input
-                        type="radio"
-                        id="option-{{ option.position }}-{{ forloop.index }}"
-                        name="option-{{ option.position }}"
-                        value="{{ value | downcase }}"
-                        class="tw:sr-only"
-                        data-size-input
-                        data-variant-id="{{ variant.id }}"
-                      >
-                      <label
-                        for="option-{{ option.position }}-{{ forloop.index }}"
-                        class="tw-option-label tw-size-label {% if option.selected_value == value %} active{% endif %} tw:inline-block tw:cursor-pointer"
-                      >
-                        {{ value }}
-                      </label>
-                    {%- endfor -%}
-                  </div>
-                {%- else -%}
-                  <p class="tw:text-sm tw:mb-3">
-                    {{
-                      'products.product.banner-product.select_option'
-                      | t: option_name: option.name
-                      | default: option.name
-                    -}}
-                    :
-                  </p>
-                  {% capture data_option_input %}
-                    data-{{ option_name | downcase }}-input
-                  {% endcapture %}
-                  <div class="tw-options-list tw:grid tw:grid-cols-2 tw:lg:grid-cols-3">
-                    {%- for value in option.values -%}
-                      <input
-                        type="radio"
-                        id="option-{{ option.position }}-{{ forloop.index }}"
-                        name="option-{{ option.position }}"
-                        value="{{ value | downcase }}"
-                        class="tw:sr-only"
-                        {{ data_option_input | strip }}
-                        data-variant-id="{{ variant.id }}"
-                      >
-                      <label
-                        for="option-{{ option.position }}-{{ forloop.index }}"
-                        class="tw-option-label tw-generic-button {% if option.selected_value == value %} active{% endif %} tw:inline-block tw:cursor-pointer"
-                      >
-                        {{ value }}
-                      </label>
-                    {%- endfor -%}
-                  </div>
-              {% endcase %}
-            {% endfor %}
-          </div>
-        {% endif %}
-        {% comment %} TO-DO: Implement product form {% endcomment %}
-        <button class="tw:btn tw:border-black tw:bg-black tw:text-white" data-add-to-cart>
-          {{ 'products.product.add_to_cart' | t }}
-        </button>
+                        {%- for value in option.values limit: 3 -%}
+                          {% assign variant = value.variant %}
+                          {% assign variant_image_alt = value | append: ' - ' | append: product.title %}
+                          <input
+                            type="radio"
+                            id="option-{{ option.position }}-{{ forloop.index }}"
+                            name="option-{{ option.position }}"
+                            value="{{ value | downcase }}"
+                            class="tw:sr-only"
+                            data-color-input
+                            data-variant-id="{{ variant.id }}"
+                          >
+                          <label
+                            for="option-{{ option.position }}-{{ forloop.index }}"
+                            class="tw-option-label tw-color-swatch {% if option.selected_value == value %} active{% endif %} tw:inline-block tw:cursor-pointer"
+                          >
+                            {% if variant.image %}
+                              {{
+                                variant.image
+                                | image_url: width: 136, height: 136
+                                | image_tag:
+                                  width: 88,
+                                  height: 88,
+                                  alt: variant_image_alt,
+                                  class: 'tw:rounded-md tw:object-cover',
+                                  sizes: '88px',
+                                  loading: 'lazy'
+                              }}
+                            {% else %}
+                              {{ 'image' | placeholder_svg_tag: 'tw:rounded-md tw:w-22 tw:h-22' }}
+                              <span class="tw:sr-only">{{ variant_image_alt }}</span>
+                            {% endif %}
+                          </label>
+                        {%- endfor -%}
+                      </div>
+                    {%- when 'size' -%}
+                      <p class="tw:text-sm tw:mb-3">
+                        {{
+                          'products.product.banner-product.select_option'
+                          | t: option_name: option.name
+                          | default: option.name
+                        -}}
+                        :
+                      </p>
+                      <div class="tw-options-list tw:grid tw:grid-cols-2 tw:lg:grid-cols-3">
+                        {%- for value in option.values -%}
+                          <input
+                            type="radio"
+                            id="option-{{ option.position }}-{{ forloop.index }}"
+                            name="option-{{ option.position }}"
+                            value="{{ value | downcase }}"
+                            class="tw:sr-only"
+                            data-size-input
+                            data-variant-id="{{ variant.id }}"
+                          >
+                          <label
+                            for="option-{{ option.position }}-{{ forloop.index }}"
+                            class="tw-option-label tw-size-label {% if option.selected_value == value %} active{% endif %} tw:inline-block tw:cursor-pointer"
+                          >
+                            {{ value }}
+                          </label>
+                        {%- endfor -%}
+                      </div>
+                    {%- else -%}
+                      <p class="tw:text-sm tw:mb-3">
+                        {{
+                          'products.product.banner-product.select_option'
+                          | t: option_name: option.name
+                          | default: option.name
+                        -}}
+                        :
+                      </p>
+                      {% capture data_option_input %}
+                      data-{{ option_name | downcase }}-input
+                    {% endcapture %}
+                      <div class="tw-options-list tw:grid tw:grid-cols-2 tw:lg:grid-cols-3">
+                        {%- for value in option.values -%}
+                          <input
+                            type="radio"
+                            id="option-{{ option.position }}-{{ forloop.index }}"
+                            name="option-{{ option.position }}"
+                            value="{{ value | downcase }}"
+                            class="tw:sr-only"
+                            {{ data_option_input | strip }}
+                            data-variant-id="{{ variant.id }}"
+                          >
+                          <label
+                            for="option-{{ option.position }}-{{ forloop.index }}"
+                            class="tw-option-label tw-generic-button {% if option.selected_value == value %} active{% endif %} tw:inline-block tw:cursor-pointer"
+                          >
+                            {{ value }}
+                          </label>
+                        {%- endfor -%}
+                      </div>
+                  {% endcase %}
+                {% endfor %}
+              </div>
+            {% endif %}
+          {% endcomment %}
+          <input
+            type="hidden"
+            name="id"
+            value="{{ product.selected_or_first_available_variant.id }}"
+            class="product-variant-id"
+          >
+          <input type="hidden" name="quantity" value="1">
+          <button
+            type="submit"
+            class="tw:btn tw:border-black tw:bg-black tw:text-white {% unless product.selected_or_first_available_variant.available %}button--disabled{% endunless %}"
+            {% unless product.selected_or_first_available_variant.available %}
+              disabled
+            {% endunless %}
+          >
+            {%- if product.selected_or_first_available_variant.available -%}
+              {{ 'products.product.add_to_cart' | t }}
+            {%- else -%}
+              {{ 'products.product.sold_out' | t }}
+            {% endif %}
+          </button>
+        {% endform %}
         {% if product.description != blank %}
           <div class="tw:mt-6 tw:text-gray tw:text-sm" aria-label="{{ 'products.product.description' | t }}">
             {{ product.description }}
