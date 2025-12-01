@@ -24,10 +24,10 @@
         <div class="promo-banners__subtitle">{{ section.settings.subtitle }}</div>
       {%- endif -%}
     </div>
-    <div class="promo-banners__grid">
+    <ul class="promo-banners__grid">
       {%- for block in section.blocks -%}
         {%- assign aspect_ratio = block.settings.image_aspect_ratio -%}
-        <div class="promo-banner promo-banner--{{ aspect_ratio }}">
+        <li class="promo-banner promo-banner--{{ aspect_ratio }}">
           <div class="promo-banner__media">
             {%- if block.settings.image != blank -%}
               {%- case aspect_ratio -%}
@@ -73,9 +73,9 @@
               </a>
             {%- endif -%}
           </div>
-        </div>
+        </li>
       {%- endfor -%}
-    </div>
+    </ul>
   </div>
 </div>
 
@@ -83,6 +83,7 @@
 {
   "name": "Promo Banners",
   "class": "section",
+  "tag": "section",
   "disabled_on": {
     "groups": ["header", "footer"]
   },

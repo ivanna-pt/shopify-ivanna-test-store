@@ -16,7 +16,12 @@
             {{ section.settings.title }}
           </h2>
         {% endif %}
-        <div class="swiper-container product-recommendations-swiper">
+        <div
+          class="swiper-container product-recommendations-swiper"
+          role="group"
+          aria-roledescription="carousel"
+          aria-label="Featured products"
+        >
           <ul class="swiper-wrapper">
             {%- for product in recommendations.products -%}
               <li class="swiper-slide">
@@ -52,6 +57,7 @@
 {% schema %}
 {
   "name": "Product recommendations",
+  "tag": "section",
   "settings": [
     {
       "type": "text",

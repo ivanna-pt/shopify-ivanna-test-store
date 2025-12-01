@@ -12,13 +12,15 @@
 {% capture price %}
   <div class="tw:flex tw:items-center tw:gap-3 tw:py-2 tw:text-base tw:text-gray" data-price-container>
     {%- if compare_at_price > price -%}
+      <span class="tw:sr-only">{{ 'products.product.price.regular_price' | t }}</span>
       <span class="tw:line-through tw:font-light {% unless available %}tw:opacity-60{% endunless %}">{{ compare_at_price | money_without_trailing_zeros }}</span>
     {%- endif -%}
+    <span class="tw:sr-only">{{ 'products.product.price.sale_price' | t }}</span>
      <span class="tw:font-medium {% unless available %}tw:opacity-60{% endunless %}" data-target="{{ target.id }}">{{ price |  money_with_currency }}</span>
      {%- if available == false -%}
       <span class="tw-badge tw:bg-gray">{{ 'products.product.sold_out' | t }}</span>
     {%- elsif compare_at_price > price -%}
-      <span class="tw-badge tw:bg-red-500">{{ 'products.product.on_sale' | t }}</span>
+      <span class="tw-badge tw:bg-red-600">{{ 'products.product.on_sale' | t }}</span>
     {%- endif -%}
   </div>            
 {% endcapture %}
@@ -142,7 +144,6 @@
             {{ price }}
           {% endif %}
           <div data-inventory-quantity>
-            {{ product.available }}
             {%- unless target.available == false -%}
               {% if target.inventory_management == 'shopify' and target.inventory_policy != 'continue' %}
                 <span class="tw:font-semibold">
@@ -154,7 +155,7 @@
                 </span>
               {%- endif -%}
             {%- else -%}
-              <span class="tw:text-red-300">{{ 'products.product.inventory_out_of_stock' | t }}</span>
+              <span class="tw:text-red-600">{{ 'products.product.inventory_out_of_stock' | t }}</span>
             {%- endunless -%}
           </div>
         </div>
@@ -178,6 +179,7 @@
                   >
                     {%- for value in option.values limit: 3 -%}
                       {% assign variant = value.variant %}
+                      {% assign variant_image_alt = value | append: ' - ' | append: product.title %}
                       <input
                         type="radio"
                         id="option-{{ option.position }}-{{ forloop.index }}"
@@ -198,13 +200,14 @@
                             | image_tag:
                               width: 88,
                               height: 88,
-                              alt: variant.image.alt,
+                              alt: variant_image_alt,
                               class: 'tw:rounded-md tw:object-cover',
                               sizes: '88px',
                               loading: 'lazy'
                           }}
                         {% else %}
                           {{ 'image' | placeholder_svg_tag: 'tw:rounded-md tw:w-22 tw:h-22' }}
+                          <span class="tw:sr-only">{{ variant_image_alt }}</span>
                         {% endif %}
                       </label>
                     {%- endfor -%}
@@ -277,7 +280,9 @@
           {{ 'products.product.add_to_cart' | t }}
         </button>
         {% if product.description != blank %}
-          <div class="tw:mt-6 tw:text-gray tw:text-sm">{{ product.description }}</div>
+          <div class="tw:mt-6 tw:text-gray tw:text-sm" aria-label="{{ 'products.product.description' | t }}">
+            {{ product.description }}
+          </div>
         {% endif %}
       </div>
     </div>
@@ -287,6 +292,7 @@
 {% schema %}
 {
   "name": "Banner with product",
+  "tag": "section",
   "settings": [
     {
       "type": "product",

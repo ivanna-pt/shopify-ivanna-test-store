@@ -1,8 +1,5 @@
 {{ 'section-featured-products.css' | asset_url | stylesheet_tag }}
-
 <script src="{{ 'featured-products.js' | asset_url }}" defer></script>
-{% style %}
-{% endstyle %}
 
 {% assign target_collection = section.settings.collection | default: collection %}
 <div
@@ -54,6 +51,7 @@
                 <h3 class="product-card__title">{{ product.title }}</h3>
                 {%- if section.settings.show_price -%}
                   <div class="product-card__price">
+                    <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
                     {{ product.price | money }}
                   </div>
                 {%- endif -%}
@@ -65,17 +63,6 @@
               </div>
             </a>
             {%- if section.settings.show_add_to_cart -%}
-              {% comment %} Add to cart with a build-in form and hidden input {% endcomment %}
-              {% comment %}
-                <form method="post" action="{{ routes.cart_add_url }}" class="product-card__form">
-                  <input type="hidden" name="id" value="{{ product.variants.first.id }}">
-                  <button type="submit" class="product-card__add-to-cart">Add to Cart</button>
-                </form>
-              {% endcomment %}
-
-              {% comment %}
-                Add to cart with AJAX
-              {% endcomment %}
               <button type="button" class="button product-card__add-to-cart" data-add-to-cart>
                 {{ 'products.product.add_to_cart' | t }}
               </button>
@@ -92,6 +79,7 @@
 {% schema %}
 {
   "name": "Featured Products",
+  "tag": "section",
   "disabled_on": {
     "groups": ["header", "footer"]
   },
