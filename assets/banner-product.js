@@ -65,10 +65,10 @@ class VariantSelector extends HTMLElement {
 
     if (variant) {
       this.hiddenInput.value = variant.id;
-      this.updateButtonState(variant.available);
+      this.updateButtonState(!variant.available);
       this.renderSection(variant.id);
     } else {
-      this.updateButtonState(false);
+      this.updateButtonState(true);
     }
   }
 
@@ -102,10 +102,21 @@ class VariantSelector extends HTMLElement {
     });
   }
 
-  updateButtonState(isAvailable) {
+  updateButtonState(disable = true) {
     const btn = this.form.querySelector('button[type="submit"]');
-    btn.disabled = !isAvailable;
-    btn.classList.toggle("button--disabled", !isAvailable);
+    const btnText = btn.querySelector("[data-atc-text]");
+
+    if (!btn) return;
+
+    if (disable) {
+      btn.setAttribute("disabled", "disabled");
+      btn.classList.add("button--disabled");
+      btnText.textContent = window.variantStrings?.soldOut || "Sold out";
+    } else {
+      btn.removeAttribute("disabled");
+      btn.classList.remove("button--disabled");
+      btnText.textContent = window.variantStrings?.addToCart || "Add to cart";
+    }
   }
 
   renderSection(variantId) {
@@ -123,7 +134,6 @@ class VariantSelector extends HTMLElement {
         this.updateBlock("[data-price-container]", temp);
         this.updateBlock("[data-inventory-quantity]", temp);
         this.updateBlock("[data-product-images]", temp, true);
-        this.updateBlock("[data-atc-text]", temp);
       })
       .catch(console.error);
   }

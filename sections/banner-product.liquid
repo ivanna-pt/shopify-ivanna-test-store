@@ -161,8 +161,37 @@
             {%- endunless -%}
           </div>
         </div>
+
         {%- assign product_form_id = 'product-form-' | append: section.id -%}
         {% form 'product', product, id: product_form_id %}
+          {% comment %} Error Summary Section {% endcomment %}
+          {% if form.errors %}
+            <div
+              class="form-errors tw:mb-4 tw:p-4 tw:bg-red-50 tw:border tw:border-red-200 tw:rounded"
+              role="alert"
+              aria-live="assertive"
+            >
+              <h2 class="tw:text-red-800 tw:font-semibold tw:mb-2">
+                {{ 'templates.contact.form.error_heading' | t }}
+              </h2>
+              <ul class="tw:list-disc tw:pl-5 tw:text-red-700">
+                {{ form.errors | default_errors }}
+              </ul>
+            </div>
+          {% endif %}
+
+          {% comment %} Success Message {% endcomment %}
+          {% if form.posted_successfully? %}
+            <div
+              class="form-success tw:mb-4 tw:p-4 tw:bg-green-50 tw:border tw:border-green-200 tw:rounded"
+              role="status"
+              aria-live="polite"
+            >
+              <p class="tw:text-green-800">
+                {{ 'general.cart.item_added' | t }}
+              </p>
+            </div>
+          {% endif %}
           {% render 'product-variant-selector', product: product, section: section, product_form_id: product_form_id %}
           <input
             type="hidden"

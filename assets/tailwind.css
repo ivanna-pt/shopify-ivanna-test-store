@@ -7,7 +7,14 @@
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --tw-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
+    --tw-color-red-50: oklch(97.1% 0.013 17.38);
+    --tw-color-red-200: oklch(88.5% 0.062 18.334);
     --tw-color-red-600: oklch(57.7% 0.245 27.325);
+    --tw-color-red-700: oklch(50.5% 0.213 27.518);
+    --tw-color-red-800: oklch(44.4% 0.177 26.899);
+    --tw-color-green-50: oklch(98.2% 0.018 155.826);
+    --tw-color-green-200: oklch(92.5% 0.084 155.995);
+    --tw-color-green-800: oklch(44.8% 0.119 151.328);
     --tw-color-black: #121212;
     --tw-color-white: #fff;
     --tw-spacing: 4px;
@@ -225,6 +232,9 @@
   .tw\:mb-3 {
     margin-bottom: calc(var(--tw-spacing) * 3);
   }
+  .tw\:mb-4 {
+    margin-bottom: calc(var(--tw-spacing) * 4);
+  }
   .tw\:mb-9 {
     margin-bottom: calc(var(--tw-spacing) * 9);
   }
@@ -275,6 +285,9 @@
   .tw\:cursor-pointer {
     cursor: pointer;
   }
+  .tw\:list-disc {
+    list-style-type: disc;
+  }
   .tw\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -302,6 +315,9 @@
   .tw\:overflow-hidden {
     overflow: hidden;
   }
+  .tw\:rounded {
+    border-radius: 0.25rem;
+  }
   .tw\:rounded-lg {
     border-radius: var(--tw-radius-lg);
   }
@@ -311,14 +327,30 @@
   .tw\:rounded-sm {
     border-radius: var(--tw-radius-sm);
   }
+  .tw\:border {
+    border-style: var(--tw-border-style);
+    border-width: 1px;
+  }
   .tw\:border-black {
     border-color: var(--tw-color-black);
+  }
+  .tw\:border-green-200 {
+    border-color: var(--tw-color-green-200);
+  }
+  .tw\:border-red-200 {
+    border-color: var(--tw-color-red-200);
   }
   .tw\:bg-black {
     background-color: var(--tw-color-black);
   }
   .tw\:bg-gray {
     background-color: var(--tw-color-gray);
+  }
+  .tw\:bg-green-50 {
+    background-color: var(--tw-color-green-50);
+  }
+  .tw\:bg-red-50 {
+    background-color: var(--tw-color-red-50);
   }
   .tw\:bg-red-600 {
     background-color: var(--tw-color-red-600);
@@ -332,6 +364,9 @@
   .tw\:p-2 {
     padding: calc(var(--tw-spacing) * 2);
   }
+  .tw\:p-4 {
+    padding: calc(var(--tw-spacing) * 4);
+  }
   .tw\:py-2 {
     padding-block: calc(var(--tw-spacing) * 2);
   }
@@ -343,6 +378,9 @@
   }
   .tw\:pb-9 {
     padding-bottom: calc(var(--tw-spacing) * 9);
+  }
+  .tw\:pl-5 {
+    padding-left: calc(var(--tw-spacing) * 5);
   }
   .tw\:text-center {
     text-align: center;
@@ -378,8 +416,17 @@
   .tw\:text-gray {
     color: var(--tw-color-gray);
   }
+  .tw\:text-green-800 {
+    color: var(--tw-color-green-800);
+  }
   .tw\:text-red-600 {
     color: var(--tw-color-red-600);
+  }
+  .tw\:text-red-700 {
+    color: var(--tw-color-red-700);
+  }
+  .tw\:text-red-800 {
+    color: var(--tw-color-red-800);
   }
   .tw\:text-white {
     color: var(--tw-color-white);
@@ -499,6 +546,11 @@
     object-fit: cover;
   }
 }
+@property --tw-border-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
+}
 @property --tw-font-weight {
   syntax: "*";
   inherits: false;
@@ -573,14 +625,10 @@
   inherits: false;
   initial-value: "";
 }
-@property --tw-border-style {
-  syntax: "*";
-  inherits: false;
-  initial-value: solid;
-}
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
+      --tw-border-style: solid;
       --tw-font-weight: initial;
       --tw-shadow: 0 0 #0000;
       --tw-shadow-color: initial;
@@ -597,7 +645,6 @@
       --tw-ring-offset-color: #fff;
       --tw-ring-offset-shadow: 0 0 #0000;
       --tw-content: "";
-      --tw-border-style: solid;
     }
   }
 }
