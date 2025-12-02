@@ -25,7 +25,15 @@ class VariantSelector extends HTMLElement {
 
   get variants() {
     if (!this._variants) {
-      this._variants = JSON.parse(this.dataset.variants || "[]");
+      const jsonEl = document.querySelector(
+        `#ProductVariants-${this.sectionId}`
+      );
+      try {
+        this._variants = JSON.parse(jsonEl?.textContent || "[]");
+      } catch (e) {
+        console.error("Failed to parse variants JSON", e);
+        this._variants = [];
+      }
     }
     return this._variants;
   }
@@ -115,6 +123,7 @@ class VariantSelector extends HTMLElement {
         this.updateBlock("[data-price-container]", temp);
         this.updateBlock("[data-inventory-quantity]", temp);
         this.updateBlock("[data-product-images]", temp, true);
+        this.updateBlock("[data-atc-text]", temp);
       })
       .catch(console.error);
   }

@@ -168,7 +168,6 @@
               class="product-variants tw:my-6"
               data-product-handle="{{ product.handle }}"
               data-section-id="{{ section.id }}"
-              data-variants="{{ product.variants | json | escape }}"
             >
               {% for option in product.options_with_values %}
                 {% assign option_name = option.name | downcase %}
@@ -237,6 +236,9 @@
                   </div>
                 </fieldset>
               {% endfor %}
+              <script type="application/json" id="ProductVariants-{{ section.id }}">
+                {{ product.variants | json }}
+              </script>
             </variant-selector>
           {% endunless %}
           {% comment %}
@@ -371,11 +373,13 @@
               disabled
             {% endunless %}
           >
-            {%- if product.selected_or_first_available_variant.available -%}
-              {{ 'products.product.add_to_cart' | t }}
-            {%- else -%}
-              {{ 'products.product.sold_out' | t }}
-            {% endif %}
+            <span data-atc-text>
+              {%- if product.selected_or_first_available_variant.available -%}
+                {{ 'products.product.add_to_cart' | t }}
+              {%- else -%}
+                {{ 'products.product.sold_out' | t }}
+              {% endif %}
+            </span>
           </button>
         {% endform %}
         {% if product.description != blank %}
