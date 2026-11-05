@@ -45,6 +45,10 @@
             "show_gift_card_recipient": true
           }
         },
+        "xb_wishlist_button_wishlist_g7GjBz": {
+          "type": "shopify://apps/xb-wishlist/blocks/button_wishlist/cc07f1e9-907b-431d-99f8-4fce3efa75f1",
+          "settings": {}
+        },
         "description": {
           "type": "description",
           "settings": {}
@@ -63,6 +67,7 @@
         "variant_picker",
         "quantity_selector",
         "buy_buttons",
+        "xb_wishlist_button_wishlist_g7GjBz",
         "description",
         "share"
       ],
